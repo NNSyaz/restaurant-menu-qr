@@ -2,20 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Restaurant Menu</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
+            padding-bottom: 120px; /* Space for cart */
+            line-height: 1.4;
+            -webkit-overflow-scrolling: touch;
         }
         
         .container {
@@ -30,80 +34,109 @@
         .header {
             background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
-            padding: 30px;
+            padding: 20px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: clamp(1.5em, 5vw, 2.5em);
+            margin-bottom: 8px;
         }
         
         .header p {
-            font-size: 1.2em;
+            font-size: clamp(0.9em, 3vw, 1.2em);
             opacity: 0.9;
         }
         
         .menu-section {
-            padding: 40px;
+            padding: 20px;
         }
         
         .category {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
         
         .category h2 {
-            font-size: 2em;
+            font-size: clamp(1.3em, 4vw, 2em);
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 3px solid #4CAF50;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
         
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        /* Tablet and desktop */
+        @media (min-width: 768px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .menu-section {
+                padding: 40px;
+            }
+            
+            .category {
+                margin-bottom: 50px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
         }
         
         .menu-item {
             background: #f9f9f9;
             border-radius: 15px;
-            padding: 20px;
-            transition: all 0.3s ease;
+            padding: 18px;
+            transition: all 0.2s ease;
             cursor: pointer;
             border: 2px solid transparent;
+            position: relative;
+            touch-action: manipulation;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
         }
         
-        .menu-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-color: #4CAF50;
+        .menu-item:active {
+            transform: scale(0.98);
+            background: #f0f0f0;
         }
         
         .menu-item.selected {
             background: #e8f5e8;
             border-color: #4CAF50;
-            transform: scale(1.02);
+            transform: scale(1.01);
         }
         
         .item-name {
-            font-size: 1.3em;
+            font-size: clamp(1.1em, 3.5vw, 1.3em);
             font-weight: bold;
             color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .item-description {
             color: #666;
             margin-bottom: 12px;
             line-height: 1.4;
+            font-size: clamp(0.85em, 2.5vw, 1em);
+            flex-grow: 1;
         }
         
         .item-price {
-            font-size: 1.2em;
+            font-size: clamp(1em, 3vw, 1.2em);
             font-weight: bold;
             color: #4CAF50;
+            margin-bottom: 8px;
         }
         
         .cart-section {
@@ -112,71 +145,107 @@
             left: 0;
             right: 0;
             background: white;
-            padding: 20px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            padding: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
             border-top: 1px solid #eee;
+            z-index: 100;
+            max-height: 30vh;
+            overflow-y: auto;
         }
         
         .cart-content {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 12px;
         }
         
         .cart-items {
-            flex: 1;
-            margin-right: 20px;
+            font-size: clamp(0.85em, 2.5vw, 1em);
+            color: #666;
+            max-height: 60px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
         }
         
         .cart-total {
-            font-size: 1.3em;
+            font-size: clamp(1.1em, 3.5vw, 1.3em);
             font-weight: bold;
             color: #333;
-            margin-right: 20px;
+            white-space: nowrap;
         }
         
         .order-btn {
             background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.1em;
+            padding: 15px 25px;
+            font-size: clamp(1em, 3vw, 1.1em);
             font-weight: bold;
             border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 200px;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            min-width: 120px;
+            white-space: nowrap;
         }
         
-        .order-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        .order-btn:active {
+            transform: scale(0.95);
         }
         
         .order-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
+        }
+        
+        /* Desktop hover effects */
+        @media (hover: hover) {
+            .menu-item:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+                border-color: #4CAF50;
+            }
+            
+            .order-btn:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            }
+            
+            .qty-btn:hover {
+                background: #45a049;
+                transform: scale(1.05);
+            }
         }
         
         .session-info {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: rgba(0,0,0,0.8);
             color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: clamp(0.75em, 2vw, 0.9em);
+            z-index: 200;
+            max-width: 200px;
+            text-align: center;
         }
         
         .quantity-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 15px;
             margin-top: 10px;
         }
         
@@ -184,32 +253,34 @@
             background: #4CAF50;
             color: white;
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
+            font-size: 18px;
             transition: all 0.2s ease;
-        }
-        
-        .qty-btn:hover {
-            background: #45a049;
-            transform: scale(1.1);
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .qty-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.9);
+            background: #45a049;
         }
         
         .qty-display {
-            min-width: 30px;
+            min-width: 40px;
             text-align: center;
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: clamp(1.1em, 3vw, 1.2em);
+            color: #4CAF50;
         }
 
         .customer-info-section {
-            padding: 40px;
+            padding: 20px;
             background: #f8f9fa;
             border-bottom: 1px solid #eee;
         }
@@ -218,27 +289,28 @@
             max-width: 500px;
             margin: 0 auto;
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .customer-form h3 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #333;
-            font-size: 1.5em;
+            font-size: clamp(1.2em, 4vw, 1.5em);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: bold;
             color: #555;
+            font-size: clamp(0.9em, 2.5vw, 1em);
         }
 
         .form-group input {
@@ -246,8 +318,9 @@
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 1em;
+            font-size: clamp(1em, 3vw, 1.1em);
             transition: border-color 0.3s ease;
+            -webkit-appearance: none;
         }
 
         .form-group input:focus {
@@ -268,14 +341,15 @@
             background: white;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: clamp(0.9em, 2.5vw, 1em);
             font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            text-align: center;
         }
 
-        .order-type-btn:hover {
-            border-color: #4CAF50;
-            transform: translateY(-2px);
+        .order-type-btn:active {
+            transform: scale(0.98);
         }
 
         .order-type-btn.active {
@@ -290,28 +364,27 @@
             color: white;
             border: none;
             padding: 15px;
-            font-size: 1.1em;
+            font-size: clamp(1em, 3vw, 1.1em);
             font-weight: bold;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             margin-top: 10px;
+            touch-action: manipulation;
         }
 
-        .continue-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        .continue-btn:active {
+            transform: scale(0.98);
         }
 
         .continue-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
 
         .menu-section {
-            padding: 40px;
+            padding: 20px;
             display: none;
         }
 
@@ -328,13 +401,15 @@
         }
 
         .order-summary h4 {
-            margin: 0 0 5px 0;
+            margin: 0 0 8px 0;
             color: #2e7d32;
+            font-size: clamp(1em, 3vw, 1.2em);
         }
 
         .order-summary p {
-            margin: 2px 0;
+            margin: 3px 0;
             color: #555;
+            font-size: clamp(0.85em, 2.5vw, 1em);
         }
 
         .loading-overlay {
@@ -356,6 +431,8 @@
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin: 20px;
+            max-width: 300px;
         }
 
         .spinner {
@@ -378,13 +455,16 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 15px 25px;
-            border-radius: 25px;
+            padding: 12px 20px;
+            border-radius: 20px;
             color: white;
             font-weight: bold;
             z-index: 1001;
             opacity: 0;
             transition: opacity 0.3s ease;
+            font-size: clamp(0.85em, 2.5vw, 1em);
+            max-width: 90%;
+            text-align: center;
         }
 
         .notification.success {
@@ -405,14 +485,16 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             text-align: center;
             z-index: 1002;
             display: none;
-            max-width: 400px;
-            width: 90%;
+            max-width: 90%;
+            width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .order-success.show {
@@ -422,11 +504,11 @@
         .order-success h3 {
             color: #4CAF50;
             margin-bottom: 15px;
-            font-size: 1.8em;
+            font-size: clamp(1.3em, 4vw, 1.8em);
         }
 
         .order-number {
-            font-size: 3em;
+            font-size: clamp(2em, 8vw, 3em);
             font-weight: bold;
             color: #4CAF50;
             margin: 20px 0;
@@ -435,36 +517,80 @@
 
         .order-details {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 15px 0;
             text-align: left;
+            font-size: clamp(0.85em, 2.5vw, 1em);
         }
 
         .close-success {
             background: #4CAF50;
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
+            padding: 12px 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: clamp(1em, 3vw, 1.1em);
             font-weight: bold;
             margin-top: 15px;
+            touch-action: manipulation;
+        }
+
+        .close-success:active {
+            transform: scale(0.98);
         }
         
-        @media (max-width: 768px) {
-            .menu-grid {
-                grid-template-columns: 1fr;
+        /* Tablet landscape adjustments */
+        @media (min-width: 768px) and (orientation: landscape) {
+            body {
+                padding: 20px;
+                padding-bottom: 100px;
             }
             
             .cart-content {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row;
+                align-items: center;
             }
             
             .cart-items {
-                margin-right: 0;
+                flex: 1;
+                margin-right: 20px;
+                max-height: none;
+            }
+        }
+        
+        /* Large screen optimizations */
+        @media (min-width: 1024px) {
+            body {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px;
+            }
+        }
+        
+        /* Fix iOS Safari bottom padding */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            body {
+                padding-bottom: calc(120px + env(safe-area-inset-bottom));
+            }
+            
+            .cart-section {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+        
+        /* Improve touch targets */
+        .menu-item, .qty-btn, .order-btn, .continue-btn, .order-type-btn {
+            min-height: 44px;
+        }
+        
+        /* Prevent zoom on inputs in iOS */
+        @media (max-width: 768px) {
+            input[type="text"] {
+                font-size: 16px;
             }
         }
     </style>
@@ -547,7 +673,7 @@
                         <div class="item-description">Traditional Malaysian fried rice with chicken, prawns, and vegetables</div>
                         <div class="item-price">RM 15.90</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('nasi-goreng', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('nasi-goreng', -1)">−</button>
                             <span class="qty-display" id="qty-nasi-goreng">0</span>
                             <button class="qty-btn" onclick="changeQuantity('nasi-goreng', 1)">+</button>
                         </div>
@@ -558,7 +684,7 @@
                         <div class="item-description">Spicy stir-fried noodles with tofu, vegetables, and egg</div>
                         <div class="item-price">RM 13.90</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('mee-goreng', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('mee-goreng', -1)">−</button>
                             <span class="qty-display" id="qty-mee-goreng">0</span>
                             <button class="qty-btn" onclick="changeQuantity('mee-goreng', 1)">+</button>
                         </div>
@@ -569,7 +695,7 @@
                         <div class="item-description">Tender steamed chicken served with fragrant rice and ginger sauce</div>
                         <div class="item-price">RM 12.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('chicken-rice', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('chicken-rice', -1)">−</button>
                             <span class="qty-display" id="qty-chicken-rice">0</span>
                             <button class="qty-btn" onclick="changeQuantity('chicken-rice', 1)">+</button>
                         </div>
@@ -580,7 +706,7 @@
                         <div class="item-description">Slow-cooked beef in rich coconut curry with aromatic spices</div>
                         <div class="item-price">RM 18.90</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('rendang', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('rendang', -1)">−</button>
                             <span class="qty-display" id="qty-rendang">0</span>
                             <button class="qty-btn" onclick="changeQuantity('rendang', 1)">+</button>
                         </div>
@@ -597,7 +723,7 @@
                         <div class="item-description">Refreshing iced milk tea, a Malaysian favorite</div>
                         <div class="item-price">RM 3.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('teh-ais', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('teh-ais', -1)">−</button>
                             <span class="qty-display" id="qty-teh-ais">0</span>
                             <button class="qty-btn" onclick="changeQuantity('teh-ais', 1)">+</button>
                         </div>
@@ -608,7 +734,7 @@
                         <div class="item-description">Traditional black coffee, strong and aromatic</div>
                         <div class="item-price">RM 2.80</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('kopi-o', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('kopi-o', -1)">−</button>
                             <span class="qty-display" id="qty-kopi-o">0</span>
                             <button class="qty-btn" onclick="changeQuantity('kopi-o', 1)">+</button>
                         </div>
@@ -619,7 +745,7 @@
                         <div class="item-description">Freshly squeezed orange juice, vitamin C packed</div>
                         <div class="item-price">RM 4.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('fresh-orange', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('fresh-orange', -1)">−</button>
                             <span class="qty-display" id="qty-fresh-orange">0</span>
                             <button class="qty-btn" onclick="changeQuantity('fresh-orange', 1)">+</button>
                         </div>
@@ -630,7 +756,7 @@
                         <div class="item-description">Natural coconut water, refreshing and healthy</div>
                         <div class="item-price">RM 3.00</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('coconut-water', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('coconut-water', -1)">−</button>
                             <span class="qty-display" id="qty-coconut-water">0</span>
                             <button class="qty-btn" onclick="changeQuantity('coconut-water', 1)">+</button>
                         </div>
@@ -647,7 +773,7 @@
                         <div class="item-description">Traditional Malaysian dessert with pandan jelly, coconut milk, and palm sugar</div>
                         <div class="item-price">RM 5.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('cendol', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('cendol', -1)">−</button>
                             <span class="qty-display" id="qty-cendol">0</span>
                             <button class="qty-btn" onclick="changeQuantity('cendol', 1)">+</button>
                         </div>
@@ -658,7 +784,7 @@
                         <div class="item-description">Shaved ice dessert with red beans, corn, jelly, and colorful syrups</div>
                         <div class="item-price">RM 6.00</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="changeQuantity('ice-kacang', -1)">-</button>
+                            <button class="qty-btn" onclick="changeQuantity('ice-kacang', -1)">−</button>
                             <span class="qty-display" id="qty-ice-kacang">0</span>
                             <button class="qty-btn" onclick="changeQuantity('ice-kacang', 1)">+</button>
                         </div>
@@ -673,18 +799,20 @@
             <div class="cart-items" id="cartItems">
                 No items selected
             </div>
-            <div class="cart-total" id="cartTotal">
-                Total: RM 0.00
+            <div class="cart-summary">
+                <div class="cart-total" id="cartTotal">
+                    Total: RM 0.00
+                </div>
+                <button class="order-btn" id="orderBtn" onclick="submitOrder()" disabled>
+                    Place Order
+                </button>
             </div>
-            <button class="order-btn" id="orderBtn" onclick="submitOrder()" disabled>
-                Place Order
-            </button>
         </div>
     </div>
     
     <script>
         // Configuration - Replace with your actual webhook URL
-        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxH43LwAbjV_33QEOcdLAh64PgapQdZPZWoctsU5MCSqY1pC0bjyEE_nTtjweDyCwHSZA/exec';
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxNqFPi14W-Th2qTY-sKI0N_Ya4GF27IBBkBv4-EkX2h03n0GOFKbLHPKrU_iiYMZWlJw/exec';
         
         // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -738,6 +866,29 @@
             'cendol': { name: 'Cendol', price: 5.50 },
             'ice-kacang': { name: 'Ais Kacang', price: 6.00 }
         };
+        
+        // Mobile-specific optimizations
+        let touchStartTime = 0;
+        let isScrolling = false;
+        
+        // Prevent accidental selections during scrolling
+        function handleTouchStart(e) {
+            touchStartTime = Date.now();
+            isScrolling = false;
+        }
+        
+        function handleTouchMove(e) {
+            if (Date.now() - touchStartTime > 100) {
+                isScrolling = true;
+            }
+        }
+        
+        function handleTouchEnd(e) {
+            if (isScrolling) {
+                e.preventDefault();
+                return false;
+            }
+        }
         
         // Utility functions
         function showNotification(message, type = 'success') {
@@ -815,7 +966,7 @@
             
             // Validate table number for dine-in
             if (orderType === 'dine-in' && !tableInput) {
-                alert('Please enter a table number for dine-in orders.');
+                showNotification('Please enter a table number for dine-in orders.', 'error');
                 return;
             }
             
@@ -844,6 +995,7 @@
                 occupyTable();
             }
         }
+        
         // Webhook functions
         async function sendToWebhook(data) {
             try {
@@ -957,9 +1109,14 @@
                 document.getElementById('tableNumber').value = urlParams.get('t');
             }
             
+            // Add touch event listeners for better mobile experience
             document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('touchstart', handleTouchStart, { passive: true });
+                item.addEventListener('touchmove', handleTouchMove, { passive: true });
+                item.addEventListener('touchend', handleTouchEnd);
+                
                 item.addEventListener('click', function(event) {
-                    if (!menuVisible) return;
+                    if (!menuVisible || isScrolling) return;
                     
                     // Don't add to cart if clicking on quantity controls
                     if (event.target.classList.contains('qty-btn') || 
@@ -976,6 +1133,13 @@
                 });
             });
             
+            // Prevent double-tap zoom on buttons
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                });
+            });
+            
             // Release table when page is about to unload (only for dine-in)
             window.addEventListener('beforeunload', function() {
                 if (orderType === 'dine-in') {
@@ -988,6 +1152,17 @@
                 if (document.hidden && orderType === 'dine-in') {
                     releaseTable();
                 }
+            });
+            
+            // Handle orientation changes
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    // Force a repaint to fix layout issues
+                    document.body.style.height = window.innerHeight + 'px';
+                    setTimeout(() => {
+                        document.body.style.height = '';
+                    }, 100);
+                }, 500);
             });
         });
         
@@ -1095,7 +1270,7 @@
                         orderNumber = result.data.order_number;
                     } else {
                         // Fallback: generate a simple order number
-                        orderNumber = orderType === 'takeaway' ? 2000 : 1000;
+                        orderNumber = Math.floor(Math.random() * 1000) + (orderType === 'takeaway' ? 2000 : 1000);
                         console.log('Using fallback order number:', orderNumber);
                     }
                     
