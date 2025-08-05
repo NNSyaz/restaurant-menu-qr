@@ -398,6 +398,60 @@
         .notification.show {
             opacity: 1;
         }
+
+        .order-success {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1002;
+            display: none;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .order-success.show {
+            display: block;
+        }
+
+        .order-success h3 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .order-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .order-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .close-success {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 15px;
+        }
         
         @media (max-width: 768px) {
             .menu-grid {
@@ -428,6 +482,20 @@
     </div>
 
     <div class="notification" id="notification"></div>
+    
+    <div class="order-success" id="orderSuccess">
+        <h3>🎉 Order Placed Successfully!</h3>
+        <div class="order-number" id="orderNumberDisplay">1000</div>
+        <p><strong>Your Order Number</strong></p>
+        <div class="order-details" id="orderSuccessDetails">
+            <p><strong>Type:</strong> <span id="successOrderType">Dine In</span></p>
+            <p><strong>Table:</strong> <span id="successTableNumber">Table 1</span></p>
+            <p><strong>Name:</strong> <span id="successCustomerName">Guest</span></p>
+            <p><strong>Items:</strong> <span id="successOrderItems">-</span></p>
+            <p><strong>Total:</strong> <span id="successOrderTotal">RM 0.00</span></p>
+        </div>
+        <button class="close-success" onclick="closeOrderSuccess()">Continue</button>
+    </div>
     
     <div class="container">
         <div class="header">
@@ -616,7 +684,7 @@
     
     <script>
         // Configuration - Replace with your actual webhook URL
-        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzG-6G3jXvakTwE9K0TO_KWikzWEwSwZoVGtwxZ2aRMkKKOK61gcr2zZGeXjbYTXsDG9w/exec';
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxH43LwAbjV_33QEOcdLAh64PgapQdZPZWoctsU5MCSqY1pC0bjyEE_nTtjweDyCwHSZA/exec';
         
         // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -634,13 +702,19 @@
         }
         
         // Update session info
-        function updateSessionInfo() {
+        function updateSessionInfo(orderNumber = null) {
             const sessionInfo = document.getElementById('sessionInfo');
-            if (tableNo && orderType === 'dine-in') {
-                sessionInfo.textContent = `${tableNo} | Session: ${sessionId.slice(-8)}`;
+            let infoText = '';
+            
+            if (orderNumber) {
+                infoText = `Order #${orderNumber} | ${orderType === 'dine-in' ? tableNo : 'Takeaway'}`;
+            } else if (tableNo && orderType === 'dine-in') {
+                infoText = `${tableNo} | Session: ${sessionId.slice(-8)}`;
             } else {
-                sessionInfo.textContent = `${orderType === 'takeaway' ? 'Takeaway' : 'Dine In'} | Session: ${sessionId.slice(-8)}`;
+                infoText = `${orderType === 'takeaway' ? 'Takeaway' : 'Dine In'} | Session: ${sessionId.slice(-8)}`;
             }
+            
+            sessionInfo.textContent = infoText;
         }
         
         // Initialize session info
@@ -674,6 +748,30 @@
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
+        }
+        
+        function showOrderSuccess(orderNumber, orderItems, totalAmount) {
+            const modal = document.getElementById('orderSuccess');
+            
+            // Update order number
+            document.getElementById('orderNumberDisplay').textContent = orderNumber;
+            
+            // Update order details
+            document.getElementById('successOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
+            document.getElementById('successTableNumber').textContent = orderType === 'dine-in' ? tableNo : 'N/A';
+            document.getElementById('successCustomerName').textContent = customerName || 'Guest';
+            document.getElementById('successOrderItems').textContent = orderItems.join(', ');
+            document.getElementById('successOrderTotal').textContent = `RM ${totalAmount}`;
+            
+            // Show modal
+            modal.classList.add('show');
+            
+            // Also show in session info
+            updateSessionInfo(orderNumber);
+        }
+        
+        function closeOrderSuccess() {
+            document.getElementById('orderSuccess').classList.remove('show');
         }
         
         function showLoading(show = true) {
@@ -986,14 +1084,18 @@
                 showLoading(false);
                 
                 if (result.success) {
-                    // Show success notification
-                    showNotification(`Order placed successfully! Total: RM ${total.toFixed(2)}`, 'success');
+                    // Show success with order number
+                    const orderNumber = result.data.order_number;
+                    showOrderSuccess(orderNumber, orderItems, total.toFixed(2));
                     
                     // Send to Android app if available
                     if (window.Android) {
                         window.Android.onOrderComplete(JSON.stringify({
                             session_id: sessionId,
                             table_no: tableNo,
+                            order_type: orderType,
+                            customer_name: customerName,
+                            order_number: orderNumber,
                             items: orderItems,
                             total: total.toFixed(2),
                             timestamp: new Date().toISOString(),
