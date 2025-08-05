@@ -746,25 +746,42 @@
                 occupyTable();
             }
         }
+        // Webhook functions
         async function sendToWebhook(data) {
             try {
                 console.log('Sending data to webhook:', data);
                 
+                // Use text/plain to avoid CORS preflight
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/plain;charset=utf-8',
                     },
                     body: JSON.stringify(data)
                 });
                 
-                const result = await response.json();
-                console.log('Webhook response:', result);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const responseText = await response.text();
+                console.log('Raw webhook response:', responseText);
+                
+                // Try to parse as JSON
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                } catch (parseError) {
+                    // If not JSON, treat as success if we got a response
+                    result = { status: 'success', message: responseText };
+                }
+                
+                console.log('Parsed webhook response:', result);
                 
                 if (result.status === 'success') {
                     return { success: true, data: result };
                 } else {
-                    throw new Error(result.message || 'Unknown error');
+                    throw new Error(result.message || 'Unknown error from webhook');
                 }
             } catch (error) {
                 console.error('Webhook error:', error);
@@ -773,14 +790,15 @@
         }
         
         async function occupyTable() {
-            if (tableOccupied) return;
+            if (tableOccupied || orderType !== 'dine-in') return;
             
             const data = {
                 status: 'table_occupied',
                 session_id: sessionId,
                 table_id: tableNo,
                 table_no: tableNo,
-                order_type: 'dine-in',
+                order_type: orderType,
+                customer_name: customerName,
                 battery: getBatteryLevel(),
                 timestamp: new Date().toISOString()
             };
@@ -795,13 +813,15 @@
         }
         
         async function releaseTable() {
-            if (!tableOccupied) return;
+            if (!tableOccupied || orderType !== 'dine-in') return;
             
             const data = {
                 status: 'table_released',
                 session_id: sessionId,
                 table_id: tableNo,
                 table_no: tableNo,
+                order_type: orderType,
+                customer_name: customerName,
                 battery: getBatteryLevel(),
                 timestamp: new Date().toISOString()
             };
@@ -821,7 +841,8 @@
                 session_id: sessionId,
                 table_no: tableNo,
                 table_id: tableNo,
-                order_type: 'dine-in',
+                order_type: orderType,
+                customer_name: customerName,
                 menu_items: orderItems,
                 total_amount: total.toFixed(2),
                 battery: getBatteryLevel(),
@@ -833,11 +854,15 @@
         
         // Add click handlers to menu items (but not to quantity controls)
         document.addEventListener('DOMContentLoaded', function() {
-            // Occupy table when page loads
-            occupyTable();
+            // Pre-fill table number if provided in URL
+            if (urlParams.get('t')) {
+                document.getElementById('tableNumber').value = urlParams.get('t');
+            }
             
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.addEventListener('click', function(event) {
+                    if (!menuVisible) return;
+                    
                     // Don't add to cart if clicking on quantity controls
                     if (event.target.classList.contains('qty-btn') || 
                         event.target.closest('.quantity-controls')) {
@@ -853,14 +878,16 @@
                 });
             });
             
-            // Release table when page is about to unload
+            // Release table when page is about to unload (only for dine-in)
             window.addEventListener('beforeunload', function() {
-                releaseTable();
+                if (orderType === 'dine-in') {
+                    releaseTable();
+                }
             });
             
             // Also release table when page becomes hidden (mobile browsers)
             document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
+                if (document.hidden && orderType === 'dine-in') {
                     releaseTable();
                 }
             });
