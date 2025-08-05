@@ -1078,15 +1078,32 @@
             }
             
             try {
+                console.log('Starting order submission...');
+                console.log('Order items:', orderItems);
+                console.log('Total:', total.toFixed(2));
+                
                 // Send order to webhook
                 const result = await sendOrderToWebhook(orderItems);
                 
+                console.log('Order webhook result:', result);
                 showLoading(false);
                 
                 if (result.success) {
+                    // Extract order number from response, with fallback
+                    let orderNumber = null;
+                    if (result.data && result.data.order_number) {
+                        orderNumber = result.data.order_number;
+                    } else {
+                        // Fallback: generate a simple order number
+                        orderNumber = orderType === 'takeaway' ? 2000 : 1000;
+                        console.log('Using fallback order number:', orderNumber);
+                    }
+                    
+                    console.log('Final order number:', orderNumber);
+                    
                     // Show success with order number
-                    const orderNumber = result.data.order_number;
                     showOrderSuccess(orderNumber, orderItems, total.toFixed(2));
+                    showNotification(`Order #${orderNumber} placed successfully!`, 'success');
                     
                     // Send to Android app if available
                     if (window.Android) {
@@ -1122,11 +1139,28 @@
                 }
             } catch (error) {
                 showLoading(false);
-                console.error('Order submission error:', error);
-                showNotification('Failed to place order. Please try again.', 'error');
+                console.error('Order submission error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    orderItems: orderItems,
+                    orderType: orderType,
+                    tableNo: tableNo
+                });
                 
-                orderBtn.textContent = 'Place Order';
+                // Show user-friendly error message
+                const errorMessage = error.message.includes('fetch') 
+                    ? 'Network error. Please check your connection and try again.' 
+                    : `Failed to place order: ${error.message}`;
+                    
+                showNotification(errorMessage, 'error');
+                
+                orderBtn.textContent = 'Try Again';
                 orderBtn.disabled = false;
+                
+                // For debugging: also show an alert with more details
+                if (window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1')) {
+                    alert(`Debug Info:\nError: ${error.message}\nWebhook URL: ${WEBHOOK_URL}\nOrder Type: ${orderType}\nTable: ${tableNo}`);
+                }
             }
         }
         
