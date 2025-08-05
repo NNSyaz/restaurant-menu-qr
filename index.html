@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .menu-section {
+            padding: 40px;
+        }
+        
+        .category {
+            margin-bottom: 50px;
+        }
+        
+        .category h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .menu-item {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #4CAF50;
+        }
+        
+        .menu-item.selected {
+            background: #e8f5e8;
+            border-color: #4CAF50;
+            transform: scale(1.02);
+        }
+        
+        .item-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .item-description {
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .item-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .cart-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            border-top: 1px solid #eee;
+        }
+        
+        .cart-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-items {
+            flex: 1;
+            margin-right: 20px;
+        }
+        
+        .cart-total {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-right: 20px;
+        }
+        
+        .order-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+        
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .session-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .qty-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .qty-btn:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+        
+        .qty-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .qty-display {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .customer-info-section {
+            padding: 40px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .customer-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .customer-form h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 1.5em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .order-type-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .order-type-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .order-type-btn:hover {
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .order-type-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .continue-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .continue-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .menu-section {
+            padding: 40px;
+            display: none;
+        }
+
+        .menu-section.active {
+            display: block;
+        }
+
+        .order-summary {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .order-summary h4 {
+            margin: 0 0 5px 0;
+            color: #2e7d32;
+        }
+
+        .order-summary p {
+            margin: 2px 0;
+            color: #555;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification.success {
+            background: #4CAF50;
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .cart-items {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="session-info" id="sessionInfo">
+        Loading session...
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Processing your order...</p>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ Restaurant Menu</h1>
+            <p>Select your delicious meals</p>
+        </div>
+
+        <!-- Customer Info Section -->
+        <div class="customer-info-section" id="customerInfoSection">
+            <div class="customer-form">
+                <h3>Order Information</h3>
+                <div class="form-group">
+                    <label>Order Type:</label>
+                    <div class="order-type-buttons">
+                        <button class="order-type-btn active" data-type="dine-in" onclick="selectOrderType('dine-in')">
+                            🍽️ Dine In
+                        </button>
+                        <button class="order-type-btn" data-type="takeaway" onclick="selectOrderType('takeaway')">
+                            🥡 Takeaway
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group" id="tableNumberGroup">
+                    <label for="tableNumber">Table Number:</label>
+                    <input type="text" id="tableNumber" placeholder="Enter table number (e.g., Table 5)" value="">
+                </div>
+                <div class="form-group">
+                    <label for="customerName">Name (Optional):</label>
+                    <input type="text" id="customerName" placeholder="Enter your name">
+                </div>
+                <button class="continue-btn" onclick="continueToMenu()">Continue to Menu</button>
+            </div>
+        </div>
+        
+        <div class="menu-section" id="menuSection">
+            <!-- Order Summary -->
+            <div class="order-summary" id="orderSummary">
+                <h4>📋 Order Details</h4>
+                <p><strong>Type:</strong> <span id="summaryOrderType">Dine In</span></p>
+                <p><strong>Table:</strong> <span id="summaryTableNumber">-</span></p>
+                <p><strong>Name:</strong> <span id="summaryCustomerName">-</span></p>
+            </div>
+            <!-- Main Courses -->
+            <div class="category">
+                <h2>🍛 Main Courses</h2>
+                <div class="menu-grid">
+                    <div class="menu-item" data-item="nasi-goreng" data-price="15.90">
+                        <div class="item-name">Nasi Goreng</div>
+                        <div class="item-description">Traditional Malaysian fried rice with chicken, prawns, and vegetables</div>
+                        <div class="item-price">RM 15.90</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('nasi-goreng', -1)">-</button>
+                            <span class="qty-display" id="qty-nasi-goreng">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('nasi-goreng', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" data-item="mee-goreng" data-price="13.90">
+                        <div class="item-name">Mee Goreng</div>
+                        <div class="item-description">Spicy stir-fried noodles with tofu, vegetables, and egg</div>
+                        <div class="item-price">RM 13.90</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('mee-goreng', -1)">-</button>
+                            <span class="qty-display" id="qty-mee-goreng">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('mee-goreng', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" data-item="chicken-rice" data-price="12.50">
+                        <div class="item-name">Hainanese Chicken Rice</div>
+                        <div class="item-description">Tender steamed chicken served with fragrant rice and ginger sauce</div>
+                        <div class="item-price">RM 12.50</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('chicken-rice', -1)">-</button>
+                            <span class="qty-display" id="qty-chicken-rice">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('chicken-rice', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" data-item="rendang" data-price="18.90">
+                        <div class="item-name">Beef Rendang</div>
+                        <div class="item-description">Slow-cooked beef in rich coconut curry with aromatic spices</div>
+                        <div class="item-price">RM 18.90</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('rendang', -1)">-</button>
+                            <span class="qty-display" id="qty-rendang">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('rendang', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Beverages -->
+            <div class="category">
+                <h2>🥤 Beverages</h2>
+                <div class="menu-grid">
+                    <div class="menu-item" data-item="teh-ais" data-price="3.50">
+                        <div class="item-name">Teh Ais</div>
+                        <div class="item-description">Refreshing iced milk tea, a Malaysian favorite</div>
+                        <div class="item-price">RM 3.50</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('teh-ais', -1)">-</button>
+                            <span class="qty-display" id="qty-teh-ais">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('teh-ais', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" data-item="kopi-o" data-price="2.80">
+                        <div class="item-name">Kopi O</div>
+                        <div class="item-description">Traditional black coffee, strong and aromatic</div>
+                        <div class="item-price">RM 2.80</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('kopi-o', -1)">-</button>
+                            <span class="qty-display" id="qty-kopi-o">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('kopi-o', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" data-item="fresh-orange" data-price="4.50">
+                        <div class="item-name">Fresh Orange Juice</div>
+                        <div class="item-description">Freshly squeezed orange juice, vitamin C packed</div>
+                        <div class="item-price">RM 4.50</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('fresh-orange', -1)">-</button>
+                            <span class="qty-display" id="qty-fresh-orange">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('fresh-orange', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" data-item="coconut-water" data-price="3.00">
+                        <div class="item-name">Young Coconut Water</div>
+                        <div class="item-description">Natural coconut water, refreshing and healthy</div>
+                        <div class="item-price">RM 3.00</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('coconut-water', -1)">-</button>
+                            <span class="qty-display" id="qty-coconut-water">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('coconut-water', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desserts -->
+            <div class="category">
+                <h2>🍨 Desserts</h2>
+                <div class="menu-grid">
+                    <div class="menu-item" data-item="cendol" data-price="5.50">
+                        <div class="item-name">Cendol</div>
+                        <div class="item-description">Traditional Malaysian dessert with pandan jelly, coconut milk, and palm sugar</div>
+                        <div class="item-price">RM 5.50</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('cendol', -1)">-</button>
+                            <span class="qty-display" id="qty-cendol">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('cendol', 1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item" data-item="ice-kacang" data-price="6.00">
+                        <div class="item-name">Ais Kacang</div>
+                        <div class="item-description">Shaved ice dessert with red beans, corn, jelly, and colorful syrups</div>
+                        <div class="item-price">RM 6.00</div>
+                        <div class="quantity-controls" style="display: none;">
+                            <button class="qty-btn" onclick="changeQuantity('ice-kacang', -1)">-</button>
+                            <span class="qty-display" id="qty-ice-kacang">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('ice-kacang', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cart-section">
+        <div class="cart-content">
+            <div class="cart-items" id="cartItems">
+                No items selected
+            </div>
+            <div class="cart-total" id="cartTotal">
+                Total: RM 0.00
+            </div>
+            <button class="order-btn" id="orderBtn" onclick="submitOrder()" disabled>
+                Place Order
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Configuration - Replace with your actual webhook URL
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyzQIpSRpWKUY3rsCIc4kI67nI0kwjqad2RUMNfufwkKJbch-JT9z415tPSEhxakNdu6g/exec';
+        
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let tableNo = urlParams.get('t') || '';
+        const sessionId = urlParams.get('session') || generateSessionId();
+        
+        // Order configuration
+        let orderType = 'dine-in';
+        let customerName = '';
+        let menuVisible = false;
+        
+        // Generate session ID if not provided
+        function generateSessionId() {
+            return 'qr-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        // Update session info
+        function updateSessionInfo() {
+            const sessionInfo = document.getElementById('sessionInfo');
+            if (tableNo && orderType === 'dine-in') {
+                sessionInfo.textContent = `${tableNo} | Session: ${sessionId.slice(-8)}`;
+            } else {
+                sessionInfo.textContent = `${orderType === 'takeaway' ? 'Takeaway' : 'Dine In'} | Session: ${sessionId.slice(-8)}`;
+            }
+        }
+        
+        // Initialize session info
+        updateSessionInfo();
+        
+        // Cart management
+        let cart = {};
+        let total = 0;
+        let tableOccupied = false;
+        
+        // Menu item data
+        const menuItems = {
+            'nasi-goreng': { name: 'Nasi Goreng', price: 15.90 },
+            'mee-goreng': { name: 'Mee Goreng', price: 13.90 },
+            'chicken-rice': { name: 'Hainanese Chicken Rice', price: 12.50 },
+            'rendang': { name: 'Beef Rendang', price: 18.90 },
+            'teh-ais': { name: 'Teh Ais', price: 3.50 },
+            'kopi-o': { name: 'Kopi O', price: 2.80 },
+            'fresh-orange': { name: 'Fresh Orange Juice', price: 4.50 },
+            'coconut-water': { name: 'Young Coconut Water', price: 3.00 },
+            'cendol': { name: 'Cendol', price: 5.50 },
+            'ice-kacang': { name: 'Ais Kacang', price: 6.00 }
+        };
+        
+        // Utility functions
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function showLoading(show = true) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.style.display = show ? 'flex' : 'none';
+        }
+        
+        function getBatteryLevel() {
+            // Return a simulated battery level (80-100%)
+            // In a real mobile app, this would come from the device
+            return Math.floor(Math.random() * 21) + 80;
+        }
+        
+        // Order type and customer info functions
+        function selectOrderType(type) {
+            orderType = type;
+            
+            // Update button states
+            document.querySelectorAll('.order-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // Show/hide table number field
+            const tableGroup = document.getElementById('tableNumberGroup');
+            if (type === 'dine-in') {
+                tableGroup.style.display = 'block';
+            } else {
+                tableGroup.style.display = 'none';
+                document.getElementById('tableNumber').value = '';
+                tableNo = '';
+            }
+            
+            updateSessionInfo();
+        }
+        
+        function continueToMenu() {
+            // Get form values
+            const tableInput = document.getElementById('tableNumber').value.trim();
+            const nameInput = document.getElementById('customerName').value.trim();
+            
+            // Validate table number for dine-in
+            if (orderType === 'dine-in' && !tableInput) {
+                alert('Please enter a table number for dine-in orders.');
+                return;
+            }
+            
+            // Set values
+            if (orderType === 'dine-in') {
+                tableNo = tableInput;
+            } else {
+                tableNo = 'Takeaway';
+            }
+            customerName = nameInput;
+            
+            // Update order summary
+            document.getElementById('summaryOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
+            document.getElementById('summaryTableNumber').textContent = orderType === 'dine-in' ? tableNo : 'N/A';
+            document.getElementById('summaryCustomerName').textContent = customerName || 'Guest';
+            
+            // Hide customer info section and show menu
+            document.getElementById('customerInfoSection').style.display = 'none';
+            document.getElementById('menuSection').classList.add('active');
+            menuVisible = true;
+            
+            updateSessionInfo();
+            
+            // Occupy table for dine-in orders
+            if (orderType === 'dine-in') {
+                occupyTable();
+            }
+        }
+        async function sendToWebhook(data) {
+            try {
+                console.log('Sending data to webhook:', data);
+                
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                console.log('Webhook response:', result);
+                
+                if (result.status === 'success') {
+                    return { success: true, data: result };
+                } else {
+                    throw new Error(result.message || 'Unknown error');
+                }
+            } catch (error) {
+                console.error('Webhook error:', error);
+                return { success: false, error: error.message };
+            }
+        }
+        
+        async function occupyTable() {
+            if (tableOccupied) return;
+            
+            const data = {
+                status: 'table_occupied',
+                session_id: sessionId,
+                table_id: tableNo,
+                table_no: tableNo,
+                order_type: 'dine-in',
+                battery: getBatteryLevel(),
+                timestamp: new Date().toISOString()
+            };
+            
+            const result = await sendToWebhook(data);
+            if (result.success) {
+                tableOccupied = true;
+                console.log('Table occupied successfully');
+            } else {
+                console.error('Failed to occupy table:', result.error);
+            }
+        }
+        
+        async function releaseTable() {
+            if (!tableOccupied) return;
+            
+            const data = {
+                status: 'table_released',
+                session_id: sessionId,
+                table_id: tableNo,
+                table_no: tableNo,
+                battery: getBatteryLevel(),
+                timestamp: new Date().toISOString()
+            };
+            
+            const result = await sendToWebhook(data);
+            if (result.success) {
+                tableOccupied = false;
+                console.log('Table released successfully');
+            } else {
+                console.error('Failed to release table:', result.error);
+            }
+        }
+        
+        async function sendOrderToWebhook(orderItems) {
+            const data = {
+                status: 'order_placed',
+                session_id: sessionId,
+                table_no: tableNo,
+                table_id: tableNo,
+                order_type: 'dine-in',
+                menu_items: orderItems,
+                total_amount: total.toFixed(2),
+                battery: getBatteryLevel(),
+                timestamp: new Date().toISOString()
+            };
+            
+            return await sendToWebhook(data);
+        }
+        
+        // Add click handlers to menu items (but not to quantity controls)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Occupy table when page loads
+            occupyTable();
+            
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function(event) {
+                    // Don't add to cart if clicking on quantity controls
+                    if (event.target.classList.contains('qty-btn') || 
+                        event.target.closest('.quantity-controls')) {
+                        event.stopPropagation();
+                        return;
+                    }
+                    
+                    const itemId = this.dataset.item;
+                    if (!cart[itemId]) {
+                        cart[itemId] = 0;
+                    }
+                    changeQuantity(itemId, 1);
+                });
+            });
+            
+            // Release table when page is about to unload
+            window.addEventListener('beforeunload', function() {
+                releaseTable();
+            });
+            
+            // Also release table when page becomes hidden (mobile browsers)
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    releaseTable();
+                }
+            });
+        });
+        
+        function changeQuantity(itemId, delta) {
+            // Prevent event bubbling
+            if (event) event.stopPropagation();
+            
+            // Initialize if doesn't exist
+            if (!cart[itemId]) {
+                cart[itemId] = 0;
+            }
+            
+            // Update quantity
+            cart[itemId] += delta;
+            
+            // Don't allow negative quantities
+            if (cart[itemId] < 0) {
+                cart[itemId] = 0;
+            }
+            
+            // Get DOM elements
+            const qtyDisplay = document.getElementById(`qty-${itemId}`);
+            const controls = document.querySelector(`[data-item="${itemId}"] .quantity-controls`);
+            const menuItem = document.querySelector(`[data-item="${itemId}"]`);
+            
+            // Update display based on quantity
+            if (cart[itemId] > 0) {
+                qtyDisplay.textContent = cart[itemId];
+                controls.style.display = 'flex';
+                menuItem.classList.add('selected');
+            } else {
+                // Hide controls and remove selection when quantity is 0
+                controls.style.display = 'none';
+                menuItem.classList.remove('selected');
+                // Remove from cart object when quantity is 0
+                delete cart[itemId];
+            }
+            
+            // Update cart display
+            updateCart();
+        }
+        
+        function updateCart() {
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartTotalEl = document.getElementById('cartTotal');
+            const orderBtn = document.getElementById('orderBtn');
+            
+            total = 0;
+            const items = [];
+            
+            // Calculate total and build items list
+            for (const [itemId, quantity] of Object.entries(cart)) {
+                if (quantity > 0) {
+                    const item = menuItems[itemId];
+                    const itemTotal = item.price * quantity;
+                    total += itemTotal;
+                    items.push(`${item.name} x${quantity}`);
+                }
+            }
+            
+            // Update display
+            if (items.length > 0) {
+                cartItemsEl.textContent = items.join(', ');
+                orderBtn.disabled = false;
+            } else {
+                cartItemsEl.textContent = 'No items selected';
+                orderBtn.disabled = true;
+            }
+            
+            cartTotalEl.textContent = `Total: RM ${total.toFixed(2)}`;
+        }
+        
+        async function submitOrder() {
+            if (Object.keys(cart).length === 0) return;
+            
+            const orderBtn = document.getElementById('orderBtn');
+            orderBtn.textContent = 'Processing...';
+            orderBtn.disabled = true;
+            showLoading(true);
+            
+            // Prepare order data
+            const orderItems = [];
+            for (const [itemId, quantity] of Object.entries(cart)) {
+                if (quantity > 0) {
+                    const item = menuItems[itemId];
+                    orderItems.push(`${item.name} x${quantity}`);
+                }
+            }
+            
+            try {
+                // Send order to webhook
+                const result = await sendOrderToWebhook(orderItems);
+                
+                showLoading(false);
+                
+                if (result.success) {
+                    // Show success notification
+                    showNotification(`Order placed successfully! Total: RM ${total.toFixed(2)}`, 'success');
+                    
+                    // Send to Android app if available
+                    if (window.Android) {
+                        window.Android.onOrderComplete(JSON.stringify({
+                            session_id: sessionId,
+                            table_no: tableNo,
+                            items: orderItems,
+                            total: total.toFixed(2),
+                            timestamp: new Date().toISOString(),
+                            webhook_response: result.data
+                        }));
+                    }
+                    
+                    // Reset cart and UI
+                    cart = {};
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        item.classList.remove('selected');
+                        const controls = item.querySelector('.quantity-controls');
+                        controls.style.display = 'none';
+                    });
+                    updateCart();
+                    
+                    orderBtn.textContent = 'Order Placed! ✅';
+                    setTimeout(() => {
+                        orderBtn.textContent = 'Place Order';
+                        orderBtn.disabled = false;
+                    }, 3000);
+                } else {
+                    throw new Error(result.error || 'Failed to place order');
+                }
+            } catch (error) {
+                showLoading(false);
+                console.error('Order submission error:', error);
+                showNotification('Failed to place order. Please try again.', 'error');
+                
+                orderBtn.textContent = 'Place Order';
+                orderBtn.disabled = false;
+            }
+        }
+        
+        // Initialize cart display
+        updateCart();
+    </script>
+</body>
+</html>
