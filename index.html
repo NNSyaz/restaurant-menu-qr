@@ -365,26 +365,40 @@
             background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             border: none;
-            padding: 18px 15px; /* Increased padding for better touch target */
-            font-size: 16px; /* Fixed font size */
+            padding: 20px 15px; /* Even more padding for iPhone */
+            font-size: 18px; /* Larger font for better visibility */
             font-weight: bold;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s ease;
-            margin-top: 10px;
+            margin-top: 15px;
             touch-action: manipulation;
-            min-height: 48px; /* Minimum touch target size */
+            min-height: 56px; /* Larger minimum touch target for iPhone */
+            -webkit-appearance: none; /* Remove iOS button styling */
+            -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
+            user-select: none;
+            outline: none;
+            display: block; /* Ensure proper block display */
+            text-align: center;
+            line-height: 1.2;
         }
 
         .continue-btn:active {
-            transform: scale(0.98);
-            background: #45a049;
+            transform: scale(0.96);
+            background: #45a049 !important;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .continue-btn:focus {
+            outline: 2px solid #4CAF50;
+            outline-offset: 2px;
         }
 
         .continue-btn:disabled {
-            background: #ccc;
+            background: #ccc !important;
             cursor: not-allowed;
             transform: none;
+            opacity: 0.6;
         }
 
         .menu-section {
@@ -605,7 +619,7 @@
             }
         }
 
-        /* Additional mobile optimizations */
+        /* Additional mobile optimizations for iPhone */
         @media (max-width: 480px) {
             .customer-form {
                 padding: 20px 15px;
@@ -613,13 +627,59 @@
             }
             
             .form-group input {
-                padding: 16px 12px; /* Even more padding for small screens */
+                padding: 18px 12px; /* Even more padding for small screens */
+                font-size: 16px !important; /* Force 16px to prevent zoom */
+                min-height: 48px;
+                border-radius: 12px;
             }
             
             .continue-btn {
-                padding: 20px 15px; /* Larger button on mobile */
-                font-size: 16px;
+                padding: 22px 20px; /* Extra large button on mobile */
+                font-size: 18px !important;
+                min-height: 60px; /* Larger button for iPhone */
+                margin-top: 20px;
+                border-radius: 15px;
+                font-weight: 700;
+                letter-spacing: 0.5px;
             }
+            
+            .order-type-btn {
+                padding: 18px 10px;
+                font-size: 16px;
+                min-height: 52px;
+            }
+        }
+        
+        /* Specific iPhone fixes */
+        @supports (-webkit-touch-callout: none) {
+            .continue-btn {
+                -webkit-appearance: none !important;
+                -webkit-border-radius: 12px;
+                border-radius: 12px;
+                background-clip: padding-box;
+            }
+            
+            .continue-btn:active {
+                -webkit-transform: scale(0.96);
+                transform: scale(0.96);
+            }
+        }
+        
+        /* Fix for iOS Safari specific issues */
+        .continue-btn {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .continue-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            border-radius: inherit;
         }
     </style>
 </head>
@@ -1168,10 +1228,48 @@
                 });
             });
             
-            // Prevent double-tap zoom on buttons
+            // Add enhanced touch event listeners for iPhone compatibility
+            const continueBtn = document.querySelector('.continue-btn');
+            if (continueBtn) {
+                // Remove any existing event listeners and add fresh ones
+                continueBtn.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.96)';
+                    this.style.backgroundColor = '#45a049';
+                }, { passive: false });
+                
+                continueBtn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.style.transform = '';
+                    this.style.backgroundColor = '';
+                    // Trigger the actual function
+                    setTimeout(() => {
+                        continueToMenu();
+                    }, 50);
+                }, { passive: false });
+                
+                continueBtn.addEventListener('touchcancel', function(e) {
+                    this.style.transform = '';
+                    this.style.backgroundColor = '';
+                });
+            }
+            
+            // Enhanced button handling for all buttons
             document.querySelectorAll('button').forEach(button => {
+                // Prevent iOS double-tap zoom
                 button.addEventListener('touchend', function(e) {
                     e.preventDefault();
+                }, { passive: false });
+                
+                // Add haptic-like feedback
+                button.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                
+                button.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.opacity = '';
+                    }, 100);
                 });
             });
             
