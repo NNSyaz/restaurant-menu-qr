@@ -868,30 +868,33 @@
             updateSessionInfo();
         }
         
-        // Continue to menu
+        // Continue to menu - FIXED VERSION
         function continueToMenu() {
             // Get form values
             const tableInput = document.getElementById('tableNumber').value.trim();
             const nameInput = document.getElementById('customerName').value.trim();
             
-            // Validate table number for dine-in
-            if (orderType === 'dine-in' && !tableInput) {
-                showNotification('Please enter a table number for dine-in orders.', 'error');
-                return;
-            }
+            let cleanTableNumber = '';
             
-            // Set values
+            // Validate and process table number for dine-in
             if (orderType === 'dine-in') {
-                const cleanTableNumber = tableInput.replace(/[^0-9]/g, '');
-                if (cleanTableNumber) {
-                    tableNo = `table${cleanTableNumber}`;
-                } else {
+                if (!tableInput) {
+                    showNotification('Please enter a table number for dine-in orders.', 'error');
+                    return;
+                }
+                
+                cleanTableNumber = tableInput.replace(/[^0-9]/g, '');
+                if (!cleanTableNumber) {
                     showNotification('Please enter a valid table number.', 'error');
                     return;
                 }
+                
+                tableNo = `table${cleanTableNumber}`;
             } else {
                 tableNo = 'Takeaway';
             }
+            
+            // Set customer name
             customerName = nameInput;
             
             // Update order summary
