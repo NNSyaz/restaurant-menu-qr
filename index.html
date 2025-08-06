@@ -1273,77 +1273,76 @@
                 document.getElementById('tableNumber').value = urlParams.get('t');
             }
             
-            // Event delegation for better mobile performance
-            document.body.addEventListener('click', function(e) {
-                // Handle order type buttons
-                if (e.target.classList.contains('order-type-btn')) {
-                    const type = e.target.dataset.type;
-                    selectOrderType(type);
-                    return;
-                }
-                
-                // Handle continue button
-                if (e.target.id === 'continueBtn') {
+            // Direct event handlers for buttons
+            
+            // Continue button
+            const continueBtn = document.getElementById('continueBtn');
+            if (continueBtn) {
+                continueBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     continueToMenu();
-                    return;
-                }
-                
-                // Handle quantity buttons
-                if (e.target.classList.contains('qty-btn')) {
+                });
+            }
+            
+            // Order type buttons
+            document.querySelectorAll('.order-type-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const type = this.dataset.type;
+                    selectOrderType(type);
+                });
+            });
+            
+            // Order button
+            const orderBtn = document.getElementById('orderBtn');
+            if (orderBtn) {
+                orderBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    submitOrder();
+                });
+            }
+            
+            // Quantity buttons
+            document.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    const itemId = e.target.dataset.item;
-                    const action = e.target.dataset.action;
+                    const itemId = this.dataset.item;
+                    const action = this.dataset.action;
                     const delta = action === 'increase' ? 1 : -1;
                     
                     changeQuantity(itemId, delta);
-                    return;
-                }
-                
-                // Handle order button
-                if (e.target.id === 'orderBtn') {
-                    e.preventDefault();
-                    submitOrder();
-                    return;
-                }
-                
-                // Handle menu item clicks (but not when clicking quantity controls)
-                if (e.target.closest('.menu-item') && !e.target.closest('.quantity-controls')) {
+                });
+            });
+            
+            // Menu item clicks
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function(e) {
                     if (!menuVisible) return;
                     
-                    const menuItem = e.target.closest('.menu-item');
-                    const itemId = menuItem.dataset.item;
+                    // Don't add to cart if clicking on quantity controls
+                    if (e.target.closest('.quantity-controls')) {
+                        e.stopPropagation();
+                        return;
+                    }
                     
-                    // Add item to cart
+                    const itemId = this.dataset.item;
                     if (!cart[itemId]) {
                         cart[itemId] = 0;
                     }
                     changeQuantity(itemId, 1);
-                }
+                });
             });
             
-            // Enhanced mobile touch handling
-            let touchStartY = 0;
-            let touchStartTime = 0;
-            
-            document.body.addEventListener('touchstart', function(e) {
-                touchStartY = e.touches[0].clientY;
-                touchStartTime = Date.now();
-            }, { passive: true });
-            
-            document.body.addEventListener('touchend', function(e) {
-                const touchEndY = e.changedTouches[0].clientY;
-                const touchDuration = Date.now() - touchStartTime;
-                const touchDistance = Math.abs(touchEndY - touchStartY);
-                
-                // If it was a long press or significant scroll, don't trigger click
-                if (touchDuration > 500 || touchDistance > 10) {
+            // Close success modal
+            const closeSuccessBtn = document.querySelector('.close-success');
+            if (closeSuccessBtn) {
+                closeSuccessBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    return false;
-                }
-            }, { passive: false });
+                    closeOrderSuccess();
+                });
+            }
             
             // Release table when page is about to unload (only for dine-in)
             window.addEventListener('beforeunload', function() {
