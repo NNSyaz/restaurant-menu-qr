@@ -998,12 +998,12 @@
                 return;
             }
             
-            // Set values - Format table number as "table" + number (without brackets)
+            // Set values - Always format table number as "table" + number
             if (orderType === 'dine-in') {
                 // Clean the input and format it as "table" + number
                 const cleanTableNumber = tableInput.replace(/[^0-9]/g, ''); // Remove all non-numeric characters
                 if (cleanTableNumber) {
-                    tableNo = `table${cleanTableNumber}`;
+                    tableNo = `table${cleanTableNumber}`; // This will be sent to webhook
                 } else {
                     showNotification('Please enter a valid table number.', 'error');
                     return;
@@ -1013,9 +1013,9 @@
             }
             customerName = nameInput;
             
-            // Update order summary - Display friendly format but send formatted version
+            // Update order summary - Display friendly format but webhook will get "tableX" format
             document.getElementById('summaryOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
-            document.getElementById('summaryTableNumber').textContent = orderType === 'dine-in' ? `Table ${tableInput}` : 'N/A';
+            document.getElementById('summaryTableNumber').textContent = orderType === 'dine-in' ? `Table ${cleanTableNumber}` : 'N/A';
             document.getElementById('summaryCustomerName').textContent = customerName || 'Guest';
             
             // Hide customer info section and show menu
