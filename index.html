@@ -17,7 +17,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 10px;
-            padding-bottom: 120px; /* Space for cart */
+            padding-bottom: 120px;
             line-height: 1.4;
             -webkit-overflow-scrolling: touch;
         }
@@ -70,7 +70,6 @@
             gap: 15px;
         }
         
-        /* Tablet and desktop */
         @media (min-width: 768px) {
             .menu-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -104,9 +103,6 @@
             min-height: 120px;
             display: flex;
             flex-direction: column;
-            /* Fix for mobile touch issues */
-            -webkit-user-select: none;
-            user-select: none;
         }
         
         .menu-item:active {
@@ -186,7 +182,7 @@
             white-space: nowrap;
         }
         
-        .order-btn {
+        .order-btn, .continue-btn, .order-type-btn, .qty-btn, .close-success {
             background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             border: none;
@@ -202,35 +198,18 @@
             white-space: nowrap;
             -webkit-appearance: none;
             -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
+            outline: none;
         }
         
-        .order-btn:active {
+        .order-btn:active, .continue-btn:active, .order-type-btn:active, .qty-btn:active, .close-success:active {
             transform: scale(0.95);
+            background: #45a049;
         }
         
         .order-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
-        }
-        
-        /* Desktop hover effects */
-        @media (hover: hover) {
-            .menu-item:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-                border-color: #4CAF50;
-            }
-            
-            .order-btn:hover:not(:disabled) {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-            }
-            
-            .qty-btn:hover {
-                background: #45a049;
-                transform: scale(1.05);
-            }
         }
         
         .session-info {
@@ -259,8 +238,8 @@
             background: #4CAF50;
             color: white;
             border: none;
-            width: 44px;
-            height: 44px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
@@ -272,13 +251,8 @@
             justify-content: center;
             -webkit-appearance: none;
             -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        
-        .qty-btn:active {
-            transform: scale(0.9);
-            background: #45a049;
+            min-width: 50px;
+            padding: 0;
         }
         
         .qty-display {
@@ -358,14 +332,6 @@
             touch-action: manipulation;
             text-align: center;
             min-height: 50px;
-            -webkit-appearance: none;
-            -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        .order-type-btn:active {
-            transform: scale(0.98);
         }
 
         .order-type-btn.active {
@@ -376,42 +342,11 @@
 
         .continue-btn {
             width: 100%;
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
             padding: 20px 15px;
             font-size: 18px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
             margin-top: 15px;
-            touch-action: manipulation;
+            border-radius: 12px;
             min-height: 60px;
-            -webkit-appearance: none;
-            -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
-            user-select: none;
-            outline: none;
-            display: block;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .continue-btn:active {
-            transform: scale(0.96);
-            background: #45a049 !important;
-        }
-
-        .continue-btn:focus {
-            outline: 2px solid #4CAF50;
-            outline-offset: 2px;
-        }
-
-        .continue-btn:disabled {
-            background: #ccc !important;
-            cursor: not-allowed;
-            transform: none;
-            opacity: 0.6;
         }
 
         .menu-section {
@@ -556,46 +491,12 @@
         }
 
         .close-success {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: clamp(1em, 3vw, 1.1em);
-            font-weight: bold;
             margin-top: 15px;
-            touch-action: manipulation;
             min-height: 50px;
-            -webkit-appearance: none;
-            -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
-        }
-
-        .close-success:active {
-            transform: scale(0.98);
+            border-radius: 20px;
+            padding: 12px 25px;
         }
         
-        /* Fix iOS Safari bottom padding */
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-            body {
-                padding-bottom: calc(120px + env(safe-area-inset-bottom));
-            }
-            
-            .cart-section {
-                padding-bottom: env(safe-area-inset-bottom);
-            }
-        }
-        
-        /* Prevent zoom on inputs in mobile browsers */
-        @media (max-width: 767px) {
-            input[type="text"], input {
-                font-size: 16px !important;
-                -webkit-appearance: none;
-                border-radius: 8px;
-            }
-        }
-        
-        /* Mobile optimizations */
         @media (max-width: 480px) {
             .customer-form {
                 padding: 20px 15px;
@@ -672,10 +573,10 @@
                 <div class="form-group">
                     <label>Order Type:</label>
                     <div class="order-type-buttons">
-                        <button class="order-type-btn active" data-type="dine-in">
+                        <button class="order-type-btn active" onclick="selectOrderType('dine-in')">
                             🍽️ Dine In
                         </button>
-                        <button class="order-type-btn" data-type="takeaway">
+                        <button class="order-type-btn" onclick="selectOrderType('takeaway')">
                             🥡 Takeaway
                         </button>
                     </div>
@@ -688,7 +589,7 @@
                     <label for="customerName">Name (Optional):</label>
                     <input type="text" id="customerName" placeholder="Enter your name">
                 </div>
-                <button class="continue-btn" id="continueBtn">Continue to Menu</button>
+                <button class="continue-btn" onclick="continueToMenu()">Continue to Menu</button>
             </div>
         </div>
         
@@ -704,47 +605,47 @@
             <div class="category">
                 <h2>🍛 Main Courses</h2>
                 <div class="menu-grid">
-                    <div class="menu-item" data-item="nasi-goreng" data-price="15.90">
+                    <div class="menu-item" data-item="nasi-goreng" data-price="15.90" onclick="addToCart('nasi-goreng')">
                         <div class="item-name">Nasi Goreng</div>
                         <div class="item-description">Traditional Malaysian fried rice with chicken, prawns, and vegetables</div>
                         <div class="item-price">RM 15.90</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="nasi-goreng">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('nasi-goreng', -1)">−</button>
                             <span class="qty-display" id="qty-nasi-goreng">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="nasi-goreng">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('nasi-goreng', 1)">+</button>
                         </div>
                     </div>
                     
-                    <div class="menu-item" data-item="mee-goreng" data-price="13.90">
+                    <div class="menu-item" data-item="mee-goreng" data-price="13.90" onclick="addToCart('mee-goreng')">
                         <div class="item-name">Mee Goreng</div>
                         <div class="item-description">Spicy stir-fried noodles with tofu, vegetables, and egg</div>
                         <div class="item-price">RM 13.90</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="mee-goreng">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('mee-goreng', -1)">−</button>
                             <span class="qty-display" id="qty-mee-goreng">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="mee-goreng">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('mee-goreng', 1)">+</button>
                         </div>
                     </div>
                     
-                    <div class="menu-item" data-item="chicken-rice" data-price="12.50">
+                    <div class="menu-item" data-item="chicken-rice" data-price="12.50" onclick="addToCart('chicken-rice')">
                         <div class="item-name">Hainanese Chicken Rice</div>
                         <div class="item-description">Tender steamed chicken served with fragrant rice and ginger sauce</div>
                         <div class="item-price">RM 12.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="chicken-rice">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('chicken-rice', -1)">−</button>
                             <span class="qty-display" id="qty-chicken-rice">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="chicken-rice">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('chicken-rice', 1)">+</button>
                         </div>
                     </div>
                     
-                    <div class="menu-item" data-item="rendang" data-price="18.90">
+                    <div class="menu-item" data-item="rendang" data-price="18.90" onclick="addToCart('rendang')">
                         <div class="item-name">Beef Rendang</div>
                         <div class="item-description">Slow-cooked beef in rich coconut curry with aromatic spices</div>
                         <div class="item-price">RM 18.90</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="rendang">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('rendang', -1)">−</button>
                             <span class="qty-display" id="qty-rendang">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="rendang">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('rendang', 1)">+</button>
                         </div>
                     </div>
                 </div>
@@ -754,47 +655,47 @@
             <div class="category">
                 <h2>🥤 Beverages</h2>
                 <div class="menu-grid">
-                    <div class="menu-item" data-item="teh-ais" data-price="3.50">
+                    <div class="menu-item" data-item="teh-ais" data-price="3.50" onclick="addToCart('teh-ais')">
                         <div class="item-name">Teh Ais</div>
                         <div class="item-description">Refreshing iced milk tea, a Malaysian favorite</div>
                         <div class="item-price">RM 3.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="teh-ais">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('teh-ais', -1)">−</button>
                             <span class="qty-display" id="qty-teh-ais">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="teh-ais">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('teh-ais', 1)">+</button>
                         </div>
                     </div>
                     
-                    <div class="menu-item" data-item="kopi-o" data-price="2.80">
+                    <div class="menu-item" data-item="kopi-o" data-price="2.80" onclick="addToCart('kopi-o')">
                         <div class="item-name">Kopi O</div>
                         <div class="item-description">Traditional black coffee, strong and aromatic</div>
                         <div class="item-price">RM 2.80</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="kopi-o">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('kopi-o', -1)">−</button>
                             <span class="qty-display" id="qty-kopi-o">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="kopi-o">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('kopi-o', 1)">+</button>
                         </div>
                     </div>
                     
-                    <div class="menu-item" data-item="fresh-orange" data-price="4.50">
+                    <div class="menu-item" data-item="fresh-orange" data-price="4.50" onclick="addToCart('fresh-orange')">
                         <div class="item-name">Fresh Orange Juice</div>
                         <div class="item-description">Freshly squeezed orange juice, vitamin C packed</div>
                         <div class="item-price">RM 4.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="fresh-orange">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('fresh-orange', -1)">−</button>
                             <span class="qty-display" id="qty-fresh-orange">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="fresh-orange">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('fresh-orange', 1)">+</button>
                         </div>
                     </div>
                     
-                    <div class="menu-item" data-item="coconut-water" data-price="3.00">
+                    <div class="menu-item" data-item="coconut-water" data-price="3.00" onclick="addToCart('coconut-water')">
                         <div class="item-name">Young Coconut Water</div>
                         <div class="item-description">Natural coconut water, refreshing and healthy</div>
                         <div class="item-price">RM 3.00</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="coconut-water">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('coconut-water', -1)">−</button>
                             <span class="qty-display" id="qty-coconut-water">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="coconut-water">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('coconut-water', 1)">+</button>
                         </div>
                     </div>
                 </div>
@@ -804,25 +705,25 @@
             <div class="category">
                 <h2>🍨 Desserts</h2>
                 <div class="menu-grid">
-                    <div class="menu-item" data-item="cendol" data-price="5.50">
+                    <div class="menu-item" data-item="cendol" data-price="5.50" onclick="addToCart('cendol')">
                         <div class="item-name">Cendol</div>
                         <div class="item-description">Traditional Malaysian dessert with pandan jelly, coconut milk, and palm sugar</div>
                         <div class="item-price">RM 5.50</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="cendol">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('cendol', -1)">−</button>
                             <span class="qty-display" id="qty-cendol">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="cendol">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('cendol', 1)">+</button>
                         </div>
                     </div>
                     
-                    <div class="menu-item" data-item="ice-kacang" data-price="6.00">
+                    <div class="menu-item" data-item="ice-kacang" data-price="6.00" onclick="addToCart('ice-kacang')">
                         <div class="item-name">Ais Kacang</div>
                         <div class="item-description">Shaved ice dessert with red beans, corn, jelly, and colorful syrups</div>
                         <div class="item-price">RM 6.00</div>
                         <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" data-action="decrease" data-item="ice-kacang">−</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('ice-kacang', -1)">−</button>
                             <span class="qty-display" id="qty-ice-kacang">0</span>
-                            <button class="qty-btn" data-action="increase" data-item="ice-kacang">+</button>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('ice-kacang', 1)">+</button>
                         </div>
                     </div>
                 </div>
@@ -839,7 +740,7 @@
                 <div class="cart-total" id="cartTotal">
                     Total: RM 0.00
                 </div>
-                <button class="order-btn" id="orderBtn" disabled>
+                <button class="order-btn" id="orderBtn" onclick="submitOrder()" disabled>
                     Place Order
                 </button>
             </div>
@@ -859,6 +760,25 @@
         let orderType = 'dine-in';
         let customerName = '';
         let menuVisible = false;
+        
+        // Cart management
+        let cart = {};
+        let total = 0;
+        let tableOccupied = false;
+        
+        // Menu item data
+        const menuItems = {
+            'nasi-goreng': { name: 'Nasi Goreng', price: 15.90 },
+            'mee-goreng': { name: 'Mee Goreng', price: 13.90 },
+            'chicken-rice': { name: 'Hainanese Chicken Rice', price: 12.50 },
+            'rendang': { name: 'Beef Rendang', price: 18.90 },
+            'teh-ais': { name: 'Teh Ais', price: 3.50 },
+            'kopi-o': { name: 'Kopi O', price: 2.80 },
+            'fresh-orange': { name: 'Fresh Orange Juice', price: 4.50 },
+            'coconut-water': { name: 'Young Coconut Water', price: 3.00 },
+            'cendol': { name: 'Cendol', price: 5.50 },
+            'ice-kacang': { name: 'Ais Kacang', price: 6.00 }
+        };
         
         // Generate session ID if not provided
         function generateSessionId() {
@@ -880,28 +800,6 @@
             
             sessionInfo.textContent = infoText;
         }
-        
-        // Initialize session info
-        updateSessionInfo();
-        
-        // Cart management
-        let cart = {};
-        let total = 0;
-        let tableOccupied = false;
-        
-        // Menu item data
-        const menuItems = {
-            'nasi-goreng': { name: 'Nasi Goreng', price: 15.90 },
-            'mee-goreng': { name: 'Mee Goreng', price: 13.90 },
-            'chicken-rice': { name: 'Hainanese Chicken Rice', price: 12.50 },
-            'rendang': { name: 'Beef Rendang', price: 18.90 },
-            'teh-ais': { name: 'Teh Ais', price: 3.50 },
-            'kopi-o': { name: 'Kopi O', price: 2.80 },
-            'fresh-orange': { name: 'Fresh Orange Juice', price: 4.50 },
-            'coconut-water': { name: 'Young Coconut Water', price: 3.00 },
-            'cendol': { name: 'Cendol', price: 5.50 },
-            'ice-kacang': { name: 'Ais Kacang', price: 6.00 }
-        };
         
         // Utility functions
         function showNotification(message, type = 'success') {
@@ -944,11 +842,10 @@
         }
         
         function getBatteryLevel() {
-            // Return a simulated battery level (80-100%)
             return Math.floor(Math.random() * 21) + 80;
         }
         
-        // Order type and customer info functions
+        // Order type selection
         function selectOrderType(type) {
             orderType = type;
             
@@ -956,7 +853,7 @@
             document.querySelectorAll('.order-type-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            document.querySelector(`[onclick="selectOrderType('${type}')"]`).classList.add('active');
             
             // Show/hide table number field
             const tableGroup = document.getElementById('tableNumberGroup');
@@ -971,6 +868,7 @@
             updateSessionInfo();
         }
         
+        // Continue to menu
         function continueToMenu() {
             // Get form values
             const tableInput = document.getElementById('tableNumber').value.trim();
@@ -982,9 +880,8 @@
                 return;
             }
             
-            // Set values - Always format table number as "table" + number
+            // Set values
             if (orderType === 'dine-in') {
-                // Clean the input and format it as "table" + number
                 const cleanTableNumber = tableInput.replace(/[^0-9]/g, '');
                 if (cleanTableNumber) {
                     tableNo = `table${cleanTableNumber}`;
@@ -997,7 +894,7 @@
             }
             customerName = nameInput;
             
-            // Update order summary - Display friendly format
+            // Update order summary
             document.getElementById('summaryOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
             document.getElementById('summaryTableNumber').textContent = orderType === 'dine-in' ? `Table ${cleanTableNumber}` : 'N/A';
             document.getElementById('summaryCustomerName').textContent = customerName || 'Guest';
@@ -1013,6 +910,82 @@
             if (orderType === 'dine-in') {
                 occupyTable();
             }
+        }
+        
+        // Add to cart function
+        function addToCart(itemId) {
+            if (!menuVisible) return;
+            
+            if (!cart[itemId]) {
+                cart[itemId] = 0;
+            }
+            changeQuantity(itemId, 1);
+        }
+        
+        // Change quantity function
+        function changeQuantity(itemId, delta) {
+            // Initialize if doesn't exist
+            if (!cart[itemId]) {
+                cart[itemId] = 0;
+            }
+            
+            // Update quantity
+            cart[itemId] += delta;
+            
+            // Don't allow negative quantities
+            if (cart[itemId] < 0) {
+                cart[itemId] = 0;
+            }
+            
+            // Get DOM elements
+            const qtyDisplay = document.getElementById(`qty-${itemId}`);
+            const controls = document.querySelector(`[data-item="${itemId}"] .quantity-controls`);
+            const menuItem = document.querySelector(`[data-item="${itemId}"]`);
+            
+            // Update display based on quantity
+            if (cart[itemId] > 0) {
+                qtyDisplay.textContent = cart[itemId];
+                controls.style.display = 'flex';
+                menuItem.classList.add('selected');
+            } else {
+                controls.style.display = 'none';
+                menuItem.classList.remove('selected');
+                delete cart[itemId];
+            }
+            
+            // Update cart display
+            updateCart();
+        }
+        
+        // Update cart display
+        function updateCart() {
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartTotalEl = document.getElementById('cartTotal');
+            const orderBtn = document.getElementById('orderBtn');
+            
+            total = 0;
+            const items = [];
+            
+            // Calculate total and build items list
+            for (const [itemId, quantity] of Object.entries(cart)) {
+                if (quantity > 0) {
+                    const item = menuItems[itemId];
+                    const itemTotal = item.price * quantity;
+                    total += itemTotal;
+                    items.push(`${item.name} x${quantity}`);
+                }
+            }
+            
+            // Update display
+            if (items.length > 0) {
+                cartItemsEl.textContent = items.join(', ');
+                orderBtn.disabled = false;
+            } else {
+                cartItemsEl.textContent = 'No items selected';
+                orderBtn.disabled = true;
+            }
+            
+            cartTotalEl.textContent = `Total: RM ${total.toFixed(2)}`;
         }
         
         // Webhook functions
@@ -1118,70 +1091,7 @@
             return await sendToWebhook(data);
         }
         
-        function changeQuantity(itemId, delta) {
-            // Initialize if doesn't exist
-            if (!cart[itemId]) {
-                cart[itemId] = 0;
-            }
-            
-            // Update quantity
-            cart[itemId] += delta;
-            
-            // Don't allow negative quantities
-            if (cart[itemId] < 0) {
-                cart[itemId] = 0;
-            }
-            
-            // Get DOM elements
-            const qtyDisplay = document.getElementById(`qty-${itemId}`);
-            const controls = document.querySelector(`[data-item="${itemId}"] .quantity-controls`);
-            const menuItem = document.querySelector(`[data-item="${itemId}"]`);
-            
-            // Update display based on quantity
-            if (cart[itemId] > 0) {
-                qtyDisplay.textContent = cart[itemId];
-                controls.style.display = 'flex';
-                menuItem.classList.add('selected');
-            } else {
-                controls.style.display = 'none';
-                menuItem.classList.remove('selected');
-                delete cart[itemId];
-            }
-            
-            // Update cart display
-            updateCart();
-        }
-        
-        function updateCart() {
-            const cartItemsEl = document.getElementById('cartItems');
-            const cartTotalEl = document.getElementById('cartTotal');
-            const orderBtn = document.getElementById('orderBtn');
-            
-            total = 0;
-            const items = [];
-            
-            // Calculate total and build items list
-            for (const [itemId, quantity] of Object.entries(cart)) {
-                if (quantity > 0) {
-                    const item = menuItems[itemId];
-                    const itemTotal = item.price * quantity;
-                    total += itemTotal;
-                    items.push(`${item.name} x${quantity}`);
-                }
-            }
-            
-            // Update display
-            if (items.length > 0) {
-                cartItemsEl.textContent = items.join(', ');
-                orderBtn.disabled = false;
-            } else {
-                cartItemsEl.textContent = 'No items selected';
-                orderBtn.disabled = true;
-            }
-            
-            cartTotalEl.textContent = `Total: RM ${total.toFixed(2)}`;
-        }
-        
+        // Submit order
         async function submitOrder() {
             if (Object.keys(cart).length === 0) return;
             
@@ -1266,83 +1176,18 @@
             }
         }
         
-        // Initialize when DOM is loaded
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Pre-fill table number if provided in URL
             if (urlParams.get('t')) {
                 document.getElementById('tableNumber').value = urlParams.get('t');
             }
             
-            // Direct event handlers for buttons
+            // Initialize session info
+            updateSessionInfo();
             
-            // Continue button
-            const continueBtn = document.getElementById('continueBtn');
-            if (continueBtn) {
-                continueBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    continueToMenu();
-                });
-            }
-            
-            // Order type buttons
-            document.querySelectorAll('.order-type-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const type = this.dataset.type;
-                    selectOrderType(type);
-                });
-            });
-            
-            // Order button
-            const orderBtn = document.getElementById('orderBtn');
-            if (orderBtn) {
-                orderBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    submitOrder();
-                });
-            }
-            
-            // Quantity buttons
-            document.querySelectorAll('.qty-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const itemId = this.dataset.item;
-                    const action = this.dataset.action;
-                    const delta = action === 'increase' ? 1 : -1;
-                    
-                    changeQuantity(itemId, delta);
-                });
-            });
-            
-            // Menu item clicks
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    if (!menuVisible) return;
-                    
-                    // Don't add to cart if clicking on quantity controls
-                    if (e.target.closest('.quantity-controls')) {
-                        e.stopPropagation();
-                        return;
-                    }
-                    
-                    const itemId = this.dataset.item;
-                    if (!cart[itemId]) {
-                        cart[itemId] = 0;
-                    }
-                    changeQuantity(itemId, 1);
-                });
-            });
-            
-            // Close success modal
-            const closeSuccessBtn = document.querySelector('.close-success');
-            if (closeSuccessBtn) {
-                closeSuccessBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    closeOrderSuccess();
-                });
-            }
+            // Initialize cart display
+            updateCart();
             
             // Release table when page is about to unload (only for dine-in)
             window.addEventListener('beforeunload', function() {
@@ -1357,21 +1202,7 @@
                     releaseTable();
                 }
             });
-            
-            // Handle orientation changes
-            window.addEventListener('orientationchange', function() {
-                setTimeout(() => {
-                    // Force a repaint to fix layout issues
-                    document.body.style.height = window.innerHeight + 'px';
-                    setTimeout(() => {
-                        document.body.style.height = '';
-                    }, 100);
-                }, 500);
-            });
         });
-        
-        // Initialize cart display
-        updateCart();
     </script>
 </body>
 </html>
