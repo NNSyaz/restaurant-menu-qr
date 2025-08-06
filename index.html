@@ -315,12 +315,13 @@
 
         .form-group input {
             width: 100%;
-            padding: 12px;
+            padding: 15px 12px; /* Increased padding for better touch target */
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: clamp(1em, 3vw, 1.1em);
+            font-size: 16px; /* Fixed font size to prevent zoom on iOS */
             transition: border-color 0.3s ease;
             -webkit-appearance: none;
+            background-color: white; /* Ensure white background */
         }
 
         .form-group input:focus {
@@ -346,6 +347,7 @@
             transition: all 0.2s ease;
             touch-action: manipulation;
             text-align: center;
+            min-height: 48px; /* Minimum touch target size */
         }
 
         .order-type-btn:active {
@@ -363,18 +365,20 @@
             background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             border: none;
-            padding: 15px;
-            font-size: clamp(1em, 3vw, 1.1em);
+            padding: 18px 15px; /* Increased padding for better touch target */
+            font-size: 16px; /* Fixed font size */
             font-weight: bold;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
             margin-top: 10px;
             touch-action: manipulation;
+            min-height: 48px; /* Minimum touch target size */
         }
 
         .continue-btn:active {
             transform: scale(0.98);
+            background: #45a049;
         }
 
         .continue-btn:disabled {
@@ -569,6 +573,10 @@
             .header {
                 padding: 30px;
             }
+            
+            .form-group input {
+                font-size: clamp(1em, 3vw, 1.1em); /* Responsive font size for desktop */
+            }
         }
         
         /* Fix iOS Safari bottom padding */
@@ -582,14 +590,34 @@
             }
         }
         
-        /* Improve touch targets */
+        /* Improve touch targets - minimum 44px for all interactive elements */
         .menu-item, .qty-btn, .order-btn, .continue-btn, .order-type-btn {
             min-height: 44px;
         }
         
-        /* Prevent zoom on inputs in iOS */
-        @media (max-width: 768px) {
-            input[type="text"] {
+        /* Prevent zoom on inputs in mobile browsers */
+        @media (max-width: 767px) {
+            input[type="text"], input {
+                font-size: 16px !important; /* Prevent zoom on iOS */
+                -webkit-appearance: none;
+                border-radius: 0; /* Reset border radius for iOS */
+                border-radius: 8px; /* Apply our custom border radius */
+            }
+        }
+
+        /* Additional mobile optimizations */
+        @media (max-width: 480px) {
+            .customer-form {
+                padding: 20px 15px;
+                margin: 0 10px;
+            }
+            
+            .form-group input {
+                padding: 16px 12px; /* Even more padding for small screens */
+            }
+            
+            .continue-btn {
+                padding: 20px 15px; /* Larger button on mobile */
                 font-size: 16px;
             }
         }
@@ -646,7 +674,7 @@
                 </div>
                 <div class="form-group" id="tableNumberGroup">
                     <label for="tableNumber">Table Number:</label>
-                    <input type="text" id="tableNumber" placeholder="Enter table number (e.g., Table 5)" value="">
+                    <input type="text" id="tableNumber" placeholder="Enter table number (e.g., 5)" value="">
                 </div>
                 <div class="form-group">
                     <label for="customerName">Name (Optional):</label>
@@ -970,17 +998,24 @@
                 return;
             }
             
-            // Set values
+            // Set values - Format table number as "table" + number (without brackets)
             if (orderType === 'dine-in') {
-                tableNo = tableInput;
+                // Clean the input and format it as "table" + number
+                const cleanTableNumber = tableInput.replace(/[^0-9]/g, ''); // Remove all non-numeric characters
+                if (cleanTableNumber) {
+                    tableNo = `table${cleanTableNumber}`;
+                } else {
+                    showNotification('Please enter a valid table number.', 'error');
+                    return;
+                }
             } else {
                 tableNo = 'Takeaway';
             }
             customerName = nameInput;
             
-            // Update order summary
+            // Update order summary - Display friendly format but send formatted version
             document.getElementById('summaryOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
-            document.getElementById('summaryTableNumber').textContent = orderType === 'dine-in' ? tableNo : 'N/A';
+            document.getElementById('summaryTableNumber').textContent = orderType === 'dine-in' ? `Table ${tableInput}` : 'N/A';
             document.getElementById('summaryCustomerName').textContent = customerName || 'Guest';
             
             // Hide customer info section and show menu
@@ -1256,6 +1291,7 @@
                 console.log('Starting order submission...');
                 console.log('Order items:', orderItems);
                 console.log('Total:', total.toFixed(2));
+                console.log('Table number being sent:', tableNo); // Debug log
                 
                 // Send order to webhook
                 const result = await sendOrderToWebhook(orderItems);
