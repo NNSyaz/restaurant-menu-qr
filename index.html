@@ -48,170 +48,6 @@
             opacity: 0.9;
         }
         
-        .menu-section {
-            padding: 20px;
-        }
-        
-        .category {
-            margin-bottom: 30px;
-        }
-        
-        .category h2 {
-            font-size: clamp(1.3em, 4vw, 2em);
-            color: #333;
-            margin-bottom: 15px;
-            border-bottom: 3px solid #4CAF50;
-            padding-bottom: 8px;
-        }
-        
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        
-        @media (min-width: 768px) {
-            .menu-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .menu-section {
-                padding: 40px;
-            }
-            
-            .category {
-                margin-bottom: 50px;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .menu-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        }
-        
-        .menu-item {
-            background: #f9f9f9;
-            border-radius: 15px;
-            padding: 18px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-            position: relative;
-            touch-action: manipulation;
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .menu-item:active {
-            transform: scale(0.98);
-            background: #f0f0f0;
-        }
-        
-        .menu-item.selected {
-            background: #e8f5e8;
-            border-color: #4CAF50;
-            transform: scale(1.01);
-        }
-        
-        .item-name {
-            font-size: clamp(1.1em, 3.5vw, 1.3em);
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 6px;
-        }
-        
-        .item-description {
-            color: #666;
-            margin-bottom: 12px;
-            line-height: 1.4;
-            font-size: clamp(0.85em, 2.5vw, 1em);
-            flex-grow: 1;
-        }
-        
-        .item-price {
-            font-size: clamp(1em, 3vw, 1.2em);
-            font-weight: bold;
-            color: #4CAF50;
-            margin-bottom: 8px;
-        }
-        
-        .cart-section {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 15px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
-            border-top: 1px solid #eee;
-            z-index: 100;
-            max-height: 30vh;
-            overflow-y: auto;
-        }
-        
-        .cart-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .cart-items {
-            font-size: clamp(0.85em, 2.5vw, 1em);
-            color: #666;
-            max-height: 60px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .cart-summary {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .cart-total {
-            font-size: clamp(1.1em, 3.5vw, 1.3em);
-            font-weight: bold;
-            color: #333;
-            white-space: nowrap;
-        }
-        
-        .order-btn, .continue-btn, .order-type-btn, .qty-btn, .close-success {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            font-size: clamp(1em, 3vw, 1.1em);
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-            min-width: 120px;
-            min-height: 50px;
-            white-space: nowrap;
-            -webkit-appearance: none;
-            -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
-            outline: none;
-        }
-        
-        .order-btn:active, .continue-btn:active, .order-type-btn:active, .qty-btn:active, .close-success:active {
-            transform: scale(0.95);
-            background: #45a049;
-        }
-        
-        .order-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
         .session-info {
             position: fixed;
             top: 15px;
@@ -225,21 +61,309 @@
             max-width: 200px;
             text-align: center;
         }
+
+        /* Customer Info Section */
+        .customer-info-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .customer-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .customer-form h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: clamp(1.4em, 4vw, 1.8em);
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+            font-size: clamp(1em, 2.5vw, 1.1em);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 18px 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .order-type-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .order-type-btn {
+            flex: 1;
+            padding: 20px 15px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: clamp(1em, 2.5vw, 1.1em);
+            font-weight: bold;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+            text-align: center;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .order-type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .order-type-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+            transform: scale(1.02);
+        }
+
+        .continue-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 25px 20px;
+            font-size: clamp(1.1em, 3vw, 1.3em);
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            min-height: 70px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .continue-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 30px;
+            display: none;
+        }
+
+        .menu-section.active {
+            display: block;
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.1);
+        }
+
+        .order-summary h4 {
+            margin: 0 0 15px 0;
+            color: #2e7d32;
+            font-size: clamp(1.2em, 3vw, 1.4em);
+            font-weight: bold;
+        }
+
+        .order-summary p {
+            margin: 8px 0;
+            color: #555;
+            font-size: clamp(1em, 2.5vw, 1.1em);
+            font-weight: 500;
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
         
+        .category h2 {
+            font-size: clamp(1.4em, 4vw, 2.2em);
+            color: #333;
+            margin-bottom: 25px;
+            border-bottom: 4px solid #4CAF50;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            }
+        }
+        
+        .menu-item {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid #f0f0f0;
+            position: relative;
+            touch-action: manipulation;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #4CAF50;
+        }
+        
+        .menu-item:active {
+            transform: scale(0.98);
+        }
+        
+        .menu-item.selected {
+            border-color: #4CAF50;
+            background: #f8fff8;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover .item-image img {
+            transform: scale(1.05);
+        }
+
+        .item-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-item.selected .item-image::after {
+            opacity: 1;
+        }
+
+        /* Fallback for missing images */
+        .item-image .image-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: #999;
+        }
+
+        .item-content {
+            padding: 20px;
+        }
+        
+        .item-name {
+            font-size: clamp(1.2em, 3.5vw, 1.4em);
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .item-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-size: clamp(0.9em, 2.5vw, 1em);
+        }
+        
+        .item-price {
+            font-size: clamp(1.1em, 3vw, 1.3em);
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
         .quantity-controls {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
-            margin-top: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 12px;
         }
         
         .qty-btn {
             background: #4CAF50;
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
@@ -249,135 +373,327 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            -webkit-appearance: none;
-            -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
-            min-width: 50px;
-            padding: 0;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .qty-btn:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+
+        .qty-btn:active {
+            transform: scale(0.9);
         }
         
         .qty-display {
-            min-width: 40px;
+            min-width: 50px;
             text-align: center;
             font-weight: bold;
-            font-size: clamp(1.1em, 3vw, 1.2em);
+            font-size: clamp(1.2em, 3vw, 1.4em);
+            color: #4CAF50;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            border: 2px solid #4CAF50;
+        }
+
+        /* Cart Section */
+        .cart-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px 15px;
+            box-shadow: 0 -8px 25px rgba(0,0,0,0.15);
+            border-top: 1px solid #eee;
+            z-index: 100;
+        }
+        
+        .cart-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .cart-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .cart-items {
+            font-size: clamp(0.9em, 2.5vw, 1em);
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .cart-total {
+            font-size: clamp(1.2em, 3.5vw, 1.5em);
+            font-weight: bold;
             color: #4CAF50;
         }
 
-        .customer-info-section {
-            padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #eee;
-        }
-
-        .customer-form {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .customer-form h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-            font-size: clamp(1.2em, 4vw, 1.5em);
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-            color: #555;
-            font-size: clamp(0.9em, 2.5vw, 1em);
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-            -webkit-appearance: none;
-            background-color: white;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-        }
-
-        .order-type-buttons {
+        .cart-buttons {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
 
-        .order-type-btn {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: clamp(0.9em, 2.5vw, 1em);
+        .view-order-btn, .order-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: clamp(1em, 3vw, 1.1em);
             font-weight: bold;
-            transition: all 0.2s ease;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             touch-action: manipulation;
-            text-align: center;
-            min-height: 50px;
+            min-width: 120px;
+            min-height: 55px;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
 
-        .order-type-btn.active {
+        .view-order-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .view-order-btn:hover, .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .view-order-btn:hover {
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .view-order-btn:active, .order-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Order Review Modal */
+        .order-review-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .order-review-modal.show {
+            display: flex;
+        }
+
+        .order-review-content {
+            background: white;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .review-header {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .review-header h3 {
+            font-size: clamp(1.4em, 4vw, 1.8em);
+            margin-bottom: 8px;
+        }
+
+        .review-header p {
+            opacity: 0.9;
+            font-size: clamp(1em, 2.5vw, 1.1em);
+        }
+
+        .review-body {
+            padding: 30px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .bill-style-summary {
+            background: #f8f9fa;
+            border: 2px dashed #4CAF50;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .bill-header {
+            text-align: center;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .bill-header h4 {
+            font-size: 1.3em;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .bill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .order-items-list {
+            margin: 20px 0;
+        }
+
+        .order-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .order-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name-bill {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .item-qty-price {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mini-qty-btn {
             background: #4CAF50;
             color: white;
-            border-color: #4CAF50;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.2s ease;
         }
 
-        .continue-btn {
-            width: 100%;
-            padding: 20px 15px;
-            font-size: 18px;
+        .mini-qty-btn:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+
+        .mini-qty-display {
+            min-width: 35px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #4CAF50;
+        }
+
+        .bill-total {
+            border-top: 2px solid #4CAF50;
             margin-top: 15px;
-            border-radius: 12px;
+            padding-top: 15px;
+            text-align: center;
+        }
+
+        .bill-total-amount {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .review-actions {
+            padding: 25px 30px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 15px;
+        }
+
+        .review-btn {
+            flex: 1;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
             min-height: 60px;
         }
 
-        .menu-section {
-            padding: 20px;
-            display: none;
+        .back-to-menu-btn {
+            background: #6c757d;
+            color: white;
         }
 
-        .menu-section.active {
-            display: block;
+        .confirm-order-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
 
-        .order-summary {
-            background: #e8f5e8;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #4CAF50;
+        .review-btn:hover {
+            transform: translateY(-2px);
         }
 
-        .order-summary h4 {
-            margin: 0 0 8px 0;
-            color: #2e7d32;
-            font-size: clamp(1em, 3vw, 1.2em);
+        .review-btn:active {
+            transform: scale(0.98);
         }
 
-        .order-summary p {
-            margin: 3px 0;
-            color: #555;
-            font-size: clamp(0.85em, 2.5vw, 1em);
-        }
-
+        /* Loading and notifications */
         .loading-overlay {
             display: none;
             position: fixed;
@@ -393,20 +709,20 @@
 
         .loading-content {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             margin: 20px;
-            max-width: 300px;
+            max-width: 350px;
         }
 
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #4CAF50;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
@@ -418,116 +734,126 @@
 
         .notification {
             position: fixed;
-            top: 20px;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 20px;
-            border-radius: 20px;
+            padding: 15px 25px;
+            border-radius: 25px;
             color: white;
             font-weight: bold;
             z-index: 1001;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            font-size: clamp(0.85em, 2.5vw, 1em);
+            transition: all 0.3s ease;
+            font-size: clamp(0.9em, 2.5vw, 1em);
             max-width: 90%;
             text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .notification.success {
-            background: #4CAF50;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
         }
 
         .notification.error {
-            background: #f44336;
+            background: linear-gradient(45deg, #f44336, #d32f2f);
         }
 
         .notification.show {
             opacity: 1;
+            transform: translateX(-50%) translateY(10px);
         }
 
+        /* Order Success Modal */
         .order-success {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
             text-align: center;
             z-index: 1002;
             display: none;
             max-width: 90%;
-            width: 400px;
+            width: 500px;
             max-height: 90vh;
             overflow-y: auto;
         }
 
         .order-success.show {
             display: block;
+            animation: modalSlideIn 0.4s ease-out;
         }
 
         .order-success h3 {
             color: #4CAF50;
-            margin-bottom: 15px;
-            font-size: clamp(1.3em, 4vw, 1.8em);
+            margin-bottom: 20px;
+            font-size: clamp(1.4em, 4vw, 2em);
         }
 
         .order-number {
-            font-size: clamp(2em, 8vw, 3em);
+            font-size: clamp(2.5em, 8vw, 4em);
             font-weight: bold;
             color: #4CAF50;
-            margin: 20px 0;
+            margin: 25px 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #4CAF50;
         }
 
         .order-details {
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
             text-align: left;
-            font-size: clamp(0.85em, 2.5vw, 1em);
+            font-size: clamp(0.9em, 2.5vw, 1em);
+            border-left: 4px solid #4CAF50;
         }
 
         .close-success {
-            margin-top: 15px;
-            min-height: 50px;
-            border-radius: 20px;
-            padding: 12px 25px;
+            margin-top: 20px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .close-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
         }
         
         @media (max-width: 480px) {
-            .customer-form {
-                padding: 20px 15px;
-                margin: 0 10px;
+            .cart-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
             
-            .form-group input {
-                padding: 18px 12px;
-                font-size: 16px !important;
-                min-height: 50px;
-                border-radius: 12px;
+            .cart-buttons {
+                width: 100%;
+                justify-content: center;
             }
-            
-            .continue-btn {
-                padding: 22px 20px;
-                font-size: 18px !important;
-                min-height: 60px;
-                margin-top: 20px;
-                border-radius: 15px;
+
+            .review-actions {
+                flex-direction: column;
             }
-            
-            .order-type-btn {
-                padding: 18px 10px;
-                font-size: 16px;
-                min-height: 52px;
-            }
-            
-            .qty-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
+
+            .bill-info {
+                flex-direction: column;
+                gap: 5px;
             }
         }
     </style>
@@ -540,16 +866,57 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="spinner"></div>
-            <p>Processing your order...</p>
+            <p style="font-size: 1.1em; color: #666; margin-top: 10px;">Processing your order...</p>
         </div>
     </div>
 
     <div class="notification" id="notification"></div>
     
+    <!-- Order Review Modal -->
+    <div class="order-review-modal" id="orderReviewModal">
+        <div class="order-review-content">
+            <div class="review-header">
+                <h3>📋 Review Your Order</h3>
+                <p>Check your items and make any changes</p>
+            </div>
+            <div class="review-body">
+                <div class="bill-style-summary">
+                    <div class="bill-header">
+                        <h4>🧾 ORDER SUMMARY</h4>
+                        <div class="bill-info">
+                            <span><strong>Type:</strong> <span id="reviewOrderType">Dine In</span></span>
+                            <span><strong>Table:</strong> <span id="reviewTableNumber">-</span></span>
+                        </div>
+                        <div class="bill-info">
+                            <span><strong>Name:</strong> <span id="reviewCustomerName">Guest</span></span>
+                            <span><strong>Date:</strong> <span id="reviewDate">-</span></span>
+                        </div>
+                    </div>
+                    <div class="order-items-list" id="reviewOrderItems">
+                        <!-- Items will be populated here -->
+                    </div>
+                    <div class="bill-total">
+                        <div style="margin-bottom: 8px; font-size: 1.1em; color: #666;">TOTAL AMOUNT</div>
+                        <div class="bill-total-amount" id="reviewTotal">RM 0.00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-actions">
+                <button class="review-btn back-to-menu-btn" onclick="closeOrderReview()">
+                    ← Back to Menu
+                </button>
+                <button class="review-btn confirm-order-btn" onclick="confirmAndSubmitOrder()">
+                    Confirm Order →
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Order Success Modal -->
     <div class="order-success" id="orderSuccess">
         <h3>🎉 Order Placed Successfully!</h3>
         <div class="order-number" id="orderNumberDisplay">1000</div>
-        <p><strong>Your Order Number</strong></p>
+        <p style="font-size: 1.2em; color: #666; margin-bottom: 10px;"><strong>Your Order Number</strong></p>
         <div class="order-details" id="orderSuccessDetails">
             <p><strong>Type:</strong> <span id="successOrderType">Dine In</span></p>
             <p><strong>Table:</strong> <span id="successTableNumber">Table 1</span></p>
@@ -569,7 +936,7 @@
         <!-- Customer Info Section -->
         <div class="customer-info-section" id="customerInfoSection">
             <div class="customer-form">
-                <h3>Order Information</h3>
+                <h3>🍽️ Order Information</h3>
                 <div class="form-group">
                     <label>Order Type:</label>
                     <div class="order-type-buttons">
@@ -589,63 +956,88 @@
                     <label for="customerName">Name (Optional):</label>
                     <input type="text" id="customerName" placeholder="Enter your name">
                 </div>
-                <button class="continue-btn" onclick="continueToMenu()">Continue to Menu</button>
+                <button class="continue-btn" onclick="continueToMenu()">Continue to Menu →</button>
             </div>
         </div>
         
         <div class="menu-section" id="menuSection">
             <!-- Order Summary -->
             <div class="order-summary" id="orderSummary">
-                <h4>📋 Order Details</h4>
+                <h4>📋 Current Order Details</h4>
                 <p><strong>Type:</strong> <span id="summaryOrderType">Dine In</span></p>
                 <p><strong>Table:</strong> <span id="summaryTableNumber">-</span></p>
                 <p><strong>Name:</strong> <span id="summaryCustomerName">-</span></p>
             </div>
+
             <!-- Main Courses -->
             <div class="category">
                 <h2>🍛 Main Courses</h2>
                 <div class="menu-grid">
                     <div class="menu-item" data-item="nasi-goreng" data-price="15.90" onclick="addToCart('nasi-goreng')">
-                        <div class="item-name">Nasi Goreng</div>
-                        <div class="item-description">Traditional Malaysian fried rice with chicken, prawns, and vegetables</div>
-                        <div class="item-price">RM 15.90</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('nasi-goreng', -1)">−</button>
-                            <span class="qty-display" id="qty-nasi-goreng">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('nasi-goreng', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/nasi-goreng.jpg" alt="Nasi Goreng" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🍛</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Nasi Goreng</div>
+                            <div class="item-description">Traditional Malaysian fried rice with chicken, prawns, and vegetables</div>
+                            <div class="item-price">RM 15.90</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('nasi-goreng', -1)">−</button>
+                                <span class="qty-display" id="qty-nasi-goreng">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('nasi-goreng', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="menu-item" data-item="mee-goreng" data-price="13.90" onclick="addToCart('mee-goreng')">
-                        <div class="item-name">Mee Goreng</div>
-                        <div class="item-description">Spicy stir-fried noodles with tofu, vegetables, and egg</div>
-                        <div class="item-price">RM 13.90</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('mee-goreng', -1)">−</button>
-                            <span class="qty-display" id="qty-mee-goreng">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('mee-goreng', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/mee-goreng.jpg" alt="Mee Goreng" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🍜</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Mee Goreng</div>
+                            <div class="item-description">Spicy stir-fried noodles with tofu, vegetables, and egg</div>
+                            <div class="item-price">RM 13.90</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('mee-goreng', -1)">−</button>
+                                <span class="qty-display" id="qty-mee-goreng">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('mee-goreng', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="menu-item" data-item="chicken-rice" data-price="12.50" onclick="addToCart('chicken-rice')">
-                        <div class="item-name">Hainanese Chicken Rice</div>
-                        <div class="item-description">Tender steamed chicken served with fragrant rice and ginger sauce</div>
-                        <div class="item-price">RM 12.50</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('chicken-rice', -1)">−</button>
-                            <span class="qty-display" id="qty-chicken-rice">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('chicken-rice', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/chicken-rice.jpg" alt="Hainanese Chicken Rice" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🍗</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Hainanese Chicken Rice</div>
+                            <div class="item-description">Tender steamed chicken served with fragrant rice and ginger sauce</div>
+                            <div class="item-price">RM 12.50</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('chicken-rice', -1)">−</button>
+                                <span class="qty-display" id="qty-chicken-rice">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('chicken-rice', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="menu-item" data-item="rendang" data-price="18.90" onclick="addToCart('rendang')">
-                        <div class="item-name">Beef Rendang</div>
-                        <div class="item-description">Slow-cooked beef in rich coconut curry with aromatic spices</div>
-                        <div class="item-price">RM 18.90</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('rendang', -1)">−</button>
-                            <span class="qty-display" id="qty-rendang">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('rendang', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/rendang.jpg" alt="Beef Rendang" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🥩</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Beef Rendang</div>
+                            <div class="item-description">Slow-cooked beef in rich coconut curry with aromatic spices</div>
+                            <div class="item-price">RM 18.90</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('rendang', -1)">−</button>
+                                <span class="qty-display" id="qty-rendang">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('rendang', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -656,46 +1048,70 @@
                 <h2>🥤 Beverages</h2>
                 <div class="menu-grid">
                     <div class="menu-item" data-item="teh-ais" data-price="3.50" onclick="addToCart('teh-ais')">
-                        <div class="item-name">Teh Ais</div>
-                        <div class="item-description">Refreshing iced milk tea, a Malaysian favorite</div>
-                        <div class="item-price">RM 3.50</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('teh-ais', -1)">−</button>
-                            <span class="qty-display" id="qty-teh-ais">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('teh-ais', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/teh-ais.jpg" alt="Teh Ais" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🧊</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Teh Ais</div>
+                            <div class="item-description">Refreshing iced milk tea, a Malaysian favorite</div>
+                            <div class="item-price">RM 3.50</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('teh-ais', -1)">−</button>
+                                <span class="qty-display" id="qty-teh-ais">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('teh-ais', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="menu-item" data-item="kopi-o" data-price="2.80" onclick="addToCart('kopi-o')">
-                        <div class="item-name">Kopi O</div>
-                        <div class="item-description">Traditional black coffee, strong and aromatic</div>
-                        <div class="item-price">RM 2.80</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('kopi-o', -1)">−</button>
-                            <span class="qty-display" id="qty-kopi-o">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('kopi-o', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/kopi-o.jpg" alt="Kopi O" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">☕</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Kopi O</div>
+                            <div class="item-description">Traditional black coffee, strong and aromatic</div>
+                            <div class="item-price">RM 2.80</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('kopi-o', -1)">−</button>
+                                <span class="qty-display" id="qty-kopi-o">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('kopi-o', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="menu-item" data-item="fresh-orange" data-price="4.50" onclick="addToCart('fresh-orange')">
-                        <div class="item-name">Fresh Orange Juice</div>
-                        <div class="item-description">Freshly squeezed orange juice, vitamin C packed</div>
-                        <div class="item-price">RM 4.50</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('fresh-orange', -1)">−</button>
-                            <span class="qty-display" id="qty-fresh-orange">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('fresh-orange', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/fresh-orange.jpg" alt="Fresh Orange Juice" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🍊</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Fresh Orange Juice</div>
+                            <div class="item-description">Freshly squeezed orange juice, vitamin C packed</div>
+                            <div class="item-price">RM 4.50</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('fresh-orange', -1)">−</button>
+                                <span class="qty-display" id="qty-fresh-orange">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('fresh-orange', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="menu-item" data-item="coconut-water" data-price="3.00" onclick="addToCart('coconut-water')">
-                        <div class="item-name">Young Coconut Water</div>
-                        <div class="item-description">Natural coconut water, refreshing and healthy</div>
-                        <div class="item-price">RM 3.00</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('coconut-water', -1)">−</button>
-                            <span class="qty-display" id="qty-coconut-water">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('coconut-water', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/coconut-water.jpg" alt="Young Coconut Water" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🥥</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Young Coconut Water</div>
+                            <div class="item-description">Natural coconut water, refreshing and healthy</div>
+                            <div class="item-price">RM 3.00</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('coconut-water', -1)">−</button>
+                                <span class="qty-display" id="qty-coconut-water">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('coconut-water', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -706,24 +1122,36 @@
                 <h2>🍨 Desserts</h2>
                 <div class="menu-grid">
                     <div class="menu-item" data-item="cendol" data-price="5.50" onclick="addToCart('cendol')">
-                        <div class="item-name">Cendol</div>
-                        <div class="item-description">Traditional Malaysian dessert with pandan jelly, coconut milk, and palm sugar</div>
-                        <div class="item-price">RM 5.50</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('cendol', -1)">−</button>
-                            <span class="qty-display" id="qty-cendol">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('cendol', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/cendol.jpg" alt="Cendol" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🍧</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Cendol</div>
+                            <div class="item-description">Traditional Malaysian dessert with pandan jelly, coconut milk, and palm sugar</div>
+                            <div class="item-price">RM 5.50</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('cendol', -1)">−</button>
+                                <span class="qty-display" id="qty-cendol">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('cendol', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="menu-item" data-item="ice-kacang" data-price="6.00" onclick="addToCart('ice-kacang')">
-                        <div class="item-name">Ais Kacang</div>
-                        <div class="item-description">Shaved ice dessert with red beans, corn, jelly, and colorful syrups</div>
-                        <div class="item-price">RM 6.00</div>
-                        <div class="quantity-controls" style="display: none;">
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('ice-kacang', -1)">−</button>
-                            <span class="qty-display" id="qty-ice-kacang">0</span>
-                            <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('ice-kacang', 1)">+</button>
+                        <div class="item-image">
+                            <img src="images/ice-kacang.jpg" alt="Ais Kacang" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none;">🍨</div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-name">Ais Kacang</div>
+                            <div class="item-description">Shaved ice dessert with red beans, corn, jelly, and colorful syrups</div>
+                            <div class="item-price">RM 6.00</div>
+                            <div class="quantity-controls" style="display: none;">
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('ice-kacang', -1)">−</button>
+                                <span class="qty-display" id="qty-ice-kacang">0</span>
+                                <button class="qty-btn" onclick="event.stopPropagation(); changeQuantity('ice-kacang', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -733,14 +1161,19 @@
     
     <div class="cart-section">
         <div class="cart-content">
-            <div class="cart-items" id="cartItems">
-                No items selected
-            </div>
-            <div class="cart-summary">
+            <div class="cart-info">
+                <div class="cart-items" id="cartItems">
+                    No items selected
+                </div>
                 <div class="cart-total" id="cartTotal">
                     Total: RM 0.00
                 </div>
-                <button class="order-btn" id="orderBtn" onclick="submitOrder()" disabled>
+            </div>
+            <div class="cart-buttons">
+                <button class="view-order-btn" id="viewOrderBtn" onclick="showOrderReview()" disabled>
+                    📋 Review Order
+                </button>
+                <button class="order-btn" id="orderBtn" onclick="showOrderReview()" disabled>
                     Place Order
                 </button>
             </div>
@@ -766,18 +1199,18 @@
         let total = 0;
         let tableOccupied = false;
         
-        // Menu item data
+        // Menu item data - emojis now only used as fallbacks
         const menuItems = {
-            'nasi-goreng': { name: 'Nasi Goreng', price: 15.90 },
-            'mee-goreng': { name: 'Mee Goreng', price: 13.90 },
-            'chicken-rice': { name: 'Hainanese Chicken Rice', price: 12.50 },
-            'rendang': { name: 'Beef Rendang', price: 18.90 },
-            'teh-ais': { name: 'Teh Ais', price: 3.50 },
-            'kopi-o': { name: 'Kopi O', price: 2.80 },
-            'fresh-orange': { name: 'Fresh Orange Juice', price: 4.50 },
-            'coconut-water': { name: 'Young Coconut Water', price: 3.00 },
-            'cendol': { name: 'Cendol', price: 5.50 },
-            'ice-kacang': { name: 'Ais Kacang', price: 6.00 }
+            'nasi-goreng': { name: 'Nasi Goreng', price: 15.90, emoji: '🍛' },
+            'mee-goreng': { name: 'Mee Goreng', price: 13.90, emoji: '🍜' },
+            'chicken-rice': { name: 'Hainanese Chicken Rice', price: 12.50, emoji: '🍗' },
+            'rendang': { name: 'Beef Rendang', price: 18.90, emoji: '🥩' },
+            'teh-ais': { name: 'Teh Ais', price: 3.50, emoji: '🧊' },
+            'kopi-o': { name: 'Kopi O', price: 2.80, emoji: '☕' },
+            'fresh-orange': { name: 'Fresh Orange Juice', price: 4.50, emoji: '🍊' },
+            'coconut-water': { name: 'Young Coconut Water', price: 3.00, emoji: '🥥' },
+            'cendol': { name: 'Cendol', price: 5.50, emoji: '🍧' },
+            'ice-kacang': { name: 'Ais Kacang', price: 6.00, emoji: '🍨' }
         };
         
         // Generate session ID if not provided
@@ -812,30 +1245,6 @@
             }, 3000);
         }
         
-        function showOrderSuccess(orderNumber, orderItems, totalAmount) {
-            const modal = document.getElementById('orderSuccess');
-            
-            // Update order number
-            document.getElementById('orderNumberDisplay').textContent = orderNumber;
-            
-            // Update order details
-            document.getElementById('successOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
-            document.getElementById('successTableNumber').textContent = orderType === 'dine-in' ? tableNo : 'N/A';
-            document.getElementById('successCustomerName').textContent = customerName || 'Guest';
-            document.getElementById('successOrderItems').textContent = orderItems.join(', ');
-            document.getElementById('successOrderTotal').textContent = `RM ${totalAmount}`;
-            
-            // Show modal
-            modal.classList.add('show');
-            
-            // Also show in session info
-            updateSessionInfo(orderNumber);
-        }
-        
-        function closeOrderSuccess() {
-            document.getElementById('orderSuccess').classList.remove('show');
-        }
-        
         function showLoading(show = true) {
             const overlay = document.getElementById('loadingOverlay');
             overlay.style.display = show ? 'flex' : 'none';
@@ -868,7 +1277,7 @@
             updateSessionInfo();
         }
         
-        // Continue to menu - FIXED VERSION
+        // Continue to menu
         function continueToMenu() {
             // Get form values
             const tableInput = document.getElementById('tableNumber').value.trim();
@@ -927,25 +1336,20 @@
         
         // Change quantity function
         function changeQuantity(itemId, delta) {
-            // Initialize if doesn't exist
             if (!cart[itemId]) {
                 cart[itemId] = 0;
             }
             
-            // Update quantity
             cart[itemId] += delta;
             
-            // Don't allow negative quantities
             if (cart[itemId] < 0) {
                 cart[itemId] = 0;
             }
             
-            // Get DOM elements
             const qtyDisplay = document.getElementById(`qty-${itemId}`);
             const controls = document.querySelector(`[data-item="${itemId}"] .quantity-controls`);
             const menuItem = document.querySelector(`[data-item="${itemId}"]`);
             
-            // Update display based on quantity
             if (cart[itemId] > 0) {
                 qtyDisplay.textContent = cart[itemId];
                 controls.style.display = 'flex';
@@ -956,7 +1360,6 @@
                 delete cart[itemId];
             }
             
-            // Update cart display
             updateCart();
         }
         
@@ -965,11 +1368,11 @@
             const cartItemsEl = document.getElementById('cartItems');
             const cartTotalEl = document.getElementById('cartTotal');
             const orderBtn = document.getElementById('orderBtn');
+            const viewOrderBtn = document.getElementById('viewOrderBtn');
             
             total = 0;
             const items = [];
             
-            // Calculate total and build items list
             for (const [itemId, quantity] of Object.entries(cart)) {
                 if (quantity > 0) {
                     const item = menuItems[itemId];
@@ -979,16 +1382,102 @@
                 }
             }
             
-            // Update display
             if (items.length > 0) {
-                cartItemsEl.textContent = items.join(', ');
+                cartItemsEl.textContent = items.length === 1 ? items[0] : `${items.length} items selected`;
                 orderBtn.disabled = false;
+                viewOrderBtn.disabled = false;
             } else {
                 cartItemsEl.textContent = 'No items selected';
                 orderBtn.disabled = true;
+                viewOrderBtn.disabled = true;
             }
             
             cartTotalEl.textContent = `Total: RM ${total.toFixed(2)}`;
+        }
+
+        // Show order review modal
+        function showOrderReview() {
+            if (Object.keys(cart).length === 0) return;
+
+            // Update review modal content
+            document.getElementById('reviewOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
+            document.getElementById('reviewTableNumber').textContent = orderType === 'dine-in' ? tableNo.replace('table', 'Table ') : 'N/A';
+            document.getElementById('reviewCustomerName').textContent = customerName || 'Guest';
+            document.getElementById('reviewDate').textContent = new Date().toLocaleDateString();
+            document.getElementById('reviewTotal').textContent = `RM ${total.toFixed(2)}`;
+
+            // Populate order items
+            const reviewItemsContainer = document.getElementById('reviewOrderItems');
+            reviewItemsContainer.innerHTML = '';
+
+            for (const [itemId, quantity] of Object.entries(cart)) {
+                if (quantity > 0) {
+                    const item = menuItems[itemId];
+                    const itemTotal = item.price * quantity;
+
+                    const itemRow = document.createElement('div');
+                    itemRow.className = 'order-item-row';
+                    itemRow.innerHTML = `
+                        <div class="item-details">
+                            <div class="item-name-bill">${item.name}</div>
+                            <div class="item-qty-price">RM ${item.price.toFixed(2)} each</div>
+                        </div>
+                        <div class="item-controls">
+                            <button class="mini-qty-btn" onclick="changeQuantityInReview('${itemId}', -1)">−</button>
+                            <span class="mini-qty-display" id="review-qty-${itemId}">${quantity}</span>
+                            <button class="mini-qty-btn" onclick="changeQuantityInReview('${itemId}', 1)">+</button>
+                        </div>
+                        <div style="text-align: right; font-weight: bold; color: #4CAF50; min-width: 80px;">
+                            RM ${itemTotal.toFixed(2)}
+                        </div>
+                    `;
+                    reviewItemsContainer.appendChild(itemRow);
+                }
+            }
+
+            // Show modal
+            document.getElementById('orderReviewModal').classList.add('show');
+        }
+
+        // Change quantity in review modal
+        function changeQuantityInReview(itemId, delta) {
+            changeQuantity(itemId, delta);
+            
+            // Update the review display
+            const reviewQtyDisplay = document.getElementById(`review-qty-${itemId}`);
+            if (cart[itemId] && cart[itemId] > 0) {
+                reviewQtyDisplay.textContent = cart[itemId];
+                
+                // Update the item total in the review
+                const item = menuItems[itemId];
+                const itemTotal = item.price * cart[itemId];
+                const itemRow = reviewQtyDisplay.closest('.order-item-row');
+                const totalElement = itemRow.querySelector('div:last-child');
+                totalElement.textContent = `RM ${itemTotal.toFixed(2)}`;
+            } else {
+                // Remove the item row if quantity is 0
+                const itemRow = reviewQtyDisplay.closest('.order-item-row');
+                itemRow.remove();
+            }
+            
+            // Update total in review
+            document.getElementById('reviewTotal').textContent = `RM ${total.toFixed(2)}`;
+            
+            // If no items left, close modal
+            if (Object.keys(cart).length === 0) {
+                closeOrderReview();
+            }
+        }
+
+        // Close order review modal
+        function closeOrderReview() {
+            document.getElementById('orderReviewModal').classList.remove('show');
+        }
+
+        // Confirm and submit order from review modal
+        function confirmAndSubmitOrder() {
+            closeOrderReview();
+            submitOrder();
         }
         
         // Webhook functions
@@ -1092,6 +1581,25 @@
             };
             
             return await sendToWebhook(data);
+        }
+        
+        // Show order success modal
+        function showOrderSuccess(orderNumber, orderItems, totalAmount) {
+            const modal = document.getElementById('orderSuccess');
+            
+            document.getElementById('orderNumberDisplay').textContent = orderNumber;
+            document.getElementById('successOrderType').textContent = orderType === 'dine-in' ? 'Dine In' : 'Takeaway';
+            document.getElementById('successTableNumber').textContent = orderType === 'dine-in' ? tableNo.replace('table', 'Table ') : 'N/A';
+            document.getElementById('successCustomerName').textContent = customerName || 'Guest';
+            document.getElementById('successOrderItems').textContent = orderItems.join(', ');
+            document.getElementById('successOrderTotal').textContent = `RM ${totalAmount}`;
+            
+            modal.classList.add('show');
+            updateSessionInfo(orderNumber);
+        }
+        
+        function closeOrderSuccess() {
+            document.getElementById('orderSuccess').classList.remove('show');
         }
         
         // Submit order
